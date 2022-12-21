@@ -1,0 +1,15 @@
+{
+	"name": "opcua-robot-server-mock",
+	"version": "0.1.0",
+	"description": "OPC UA server mock that emulates behavior of a robot arm",
+	"scripts": {},
+	"keywords": [
+		"OPC",
+		"opcua",
+		"mock",
+		"emulator",
+		"robotics"
+	],
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "GPL-3.0"
+}
