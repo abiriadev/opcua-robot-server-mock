@@ -6,9 +6,17 @@ importers:
     specifiers:
       '@swc/cli': ^0.1.57
       '@swc/core': ^1.3.24
+      '@types/node': ^18.11.17
+      class-transformer: ^0.5.1
       node-opcua: ^2.87.0
+      reflect-metadata: ^0.1.13
+      typescript: ^4.9.4
     dependencies:
+      '@types/node': 18.11.17
+      class-transformer: 0.5.1
       node-opcua: 2.87.0
+      reflect-metadata: 0.1.13
+      typescript: 4.9.4
     devDependencies:
       '@swc/cli': 0.1.57_@swc+core@1.3.24
       '@swc/core': 1.3.24
@@ -331,6 +339,10 @@ packages:
       readdirp: 3.6.0
     optionalDependencies:
       fsevents: 2.3.2
+    dev: false
+
+  /class-transformer/0.5.1:
+    resolution: {integrity: sha512-SQa1Ws6hUbfC98vKGxZH3KFY0Y1lm5Zm0SY8XX9zbK7FJCyVEac3ATW0RIpwzW+oOfmHE5PMPufDG9hCfoEOMw==}
     dev: false
 
   /cli-table/0.3.11:
@@ -1536,6 +1548,10 @@ packages:
       picomatch: 2.3.1
     dev: false
 
+  /reflect-metadata/0.1.13:
+    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
+    dev: false
+
   /require-directory/2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
     engines: {node: '>=0.10.0'}
@@ -1657,6 +1673,12 @@ packages:
 
   /tweetnacl/0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
+    dev: false
+
+  /typescript/4.9.4:
+    resolution: {integrity: sha512-Uz+dTXYzxXXbsFpM86Wh3dKCxrQqUcVMxwU54orwlJjOpO3ao8L7j5lH+dWfTwgCwIuM9GQ2kvVotzYJMXTBZg==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
     dev: false
 
   /wget-improved-2/3.3.0:

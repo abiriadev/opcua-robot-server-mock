@@ -10,7 +10,11 @@
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "GPL-3.0",
 	"dependencies": {
-		"node-opcua": "^2.87.0"
+		"@types/node": "^18.11.17",
+		"class-transformer": "^0.5.1",
+		"node-opcua": "^2.87.0",
+		"reflect-metadata": "^0.1.13",
+		"typescript": "^4.9.4"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.1.57",

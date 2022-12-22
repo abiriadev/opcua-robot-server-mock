@@ -1,4 +1,8 @@
-import { DataType, OPCUAServer } from 'node-opcua'
+import { OPCUAServer } from 'node-opcua'
+import { deserializeArray } from 'class-transformer'
+import { readFile } from 'node:fs/promises'
+import { Node } from './node'
+import 'reflect-metadata'
 
 const server = new OPCUAServer({
 	port: 4840,
@@ -10,36 +14,34 @@ const server = new OPCUAServer({
 	},
 })
 
+const parser = async () => {
+	return deserializeArray(
+		Node,
+		(await readFile('../../tmp/opcua/flat.json')).toString(),
+		{
+			excludeExtraneousValues: true,
+		},
+	)
+}
+
 void (async () => {
 	await server.initialize()
 
 	const { addressSpace } = server.engine
 	const ns = addressSpace?.getOwnNamespace()
 
-	const obj = ns?.addObject({
-		organizedBy: addressSpace?.rootFolder.objects,
-		browseName: 'customObject',
-	})
+	const arr = await parser()
 
-	const variable = ns?.addVariable({
-		componentOf: obj,
-		browseName: 'variable',
-		dataType: 'Double',
-		minimumSamplingInterval: 10,
-	})
-
-	let counter = 0
-
-	const timerId = setInterval(() => {
-		++counter
-		variable?.setValueFromSource({
-			dataType: DataType.Double,
-			value: counter,
-		})
-	}, 100)
-
-	addressSpace?.registerShutdownTask(() => {
-		clearInterval(timerId)
+	arr.map(({ browseName, displayName, nodeId, nodeClass }) => {
+		if (nodeId === 'ROOT') return
+		else if (nodeId === 'i=17602') return
+		else if (nodeClass === 'Object') {
+			ns?.addObject({
+				organizedBy: addressSpace?.rootFolder.objects,
+				browseName,
+				displayName,
+			})
+		}
 	})
 
 	await server.start()
