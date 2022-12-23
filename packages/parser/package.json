@@ -1,0 +1,22 @@
+{
+	"name": "parser",
+	"version": "0.1.0",
+	"description": "parse JSON-serialized OPC UA server structure",
+	"main": "dist/index.js",
+	"scripts": {
+		"start": "node ./dist/index.js",
+		"build": "swc ./src -d ./dist"
+	},
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "GPL-3.0",
+	"dependencies": {
+		"@types/node": "^18.11.17",
+		"typescript": "^4.9.4",
+		"typia": "^3.4.15"
+	},
+	"devDependencies": {
+		"@swc/cli": "^0.1.57",
+		"@swc/core": "^1.3.24",
+		"ttypescript": "^1.5.15"
+	}
+}
