@@ -13,7 +13,7 @@
 		"dotenv": "^16.0.3",
 		"node": "workspace:^0.1.0",
 		"node-opcua": "^2.87.0",
-		"parser": "workspace:^0.2.0"
+		"parser": "workspace:^0.3.0"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.1.57",

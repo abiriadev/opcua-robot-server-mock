@@ -8,7 +8,7 @@ import {
 	type ClientSession,
 	OPCUAClient,
 } from 'node-opcua'
-import { stringify } from 'typia'
+import { assertStringify } from 'parser'
 
 import { normalizeNode } from './types/rawNode'
 
@@ -39,8 +39,7 @@ const explore = async (
 const printJson = async (
 	nodeTree: Array<Node>,
 ): Promise<void> => {
-	const stringifiedNodeTree =
-		stringify<Array<Node>>(nodeTree)
+	const stringifiedNodeTree = assertStringify(nodeTree)
 
 	if (process.env.OPC_TREE_OUTPUT === undefined)
 		process.stdout.write(stringifiedNodeTree)

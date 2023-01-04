@@ -1,6 +1,6 @@
 {
 	"name": "parser",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "parse JSON-serialized OPC UA server structure",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
@@ -15,7 +15,6 @@
 	},
 	"devDependencies": {
 		"@trivago/prettier-plugin-sort-imports": "^4.0.0",
-		"@types/node": "^18.11.17",
 		"prettier": "^2.8.1",
 		"ttypescript": "^1.5.15",
 		"typescript": "^4.9.4"
