@@ -1,4 +1,5 @@
-export type Node = {
+// the node type used at serialized format
+export interface Node {
 	referenceTypeId: string
 	nodeId: string
 	browseName: string

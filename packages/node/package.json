@@ -1,0 +1,16 @@
+{
+	"name": "node",
+	"version": "0.1.0",
+	"description": "shared node type for serialize / deserialize OPC UA tree structure",
+	"main": "dist/node.js",
+	"types": "dist/node.d.ts",
+	"scripts": {
+		"build": "tsc"
+	},
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "^2.8.1",
+		"typescript": "^4.9.4"
+	}
+}

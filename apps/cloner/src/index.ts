@@ -2,6 +2,7 @@ import { writeFile } from 'node:fs/promises'
 import { exit } from 'node:process'
 
 import { config } from 'dotenv'
+import { Node } from 'node'
 import {
 	type BrowseDescriptionLike,
 	type ClientSession,
@@ -9,7 +10,6 @@ import {
 } from 'node-opcua'
 import { stringify } from 'typia'
 
-import { Node } from './types/node'
 import { normalizeNode } from './types/rawNode'
 
 // dotenv setup
