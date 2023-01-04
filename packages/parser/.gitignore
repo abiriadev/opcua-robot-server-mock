@@ -1,2 +1,1 @@
-/data/*
-!/data/tree-opcua.json
+dist/

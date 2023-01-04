@@ -45,22 +45,20 @@ importers:
       dotenv: ^16.0.3
       node: workspace:^0.1.0
       node-opcua: ^2.87.0
+      parser: workspace:^0.2.0
       prettier: ^2.8.1
-      ttypescript: ^1.5.15
       typescript: ^4.9.4
-      typia: ^3.4.15
     dependencies:
       dotenv: 16.0.3
       node: link:../../packages/node
       node-opcua: 2.87.0
-      typia: 3.4.15_bdozwspg4olslwdzpxy3uyklu4
+      parser: link:../../packages/parser
     devDependencies:
       '@swc/cli': 0.1.57_@swc+core@1.3.24
       '@swc/core': 1.3.24
       '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.1
       '@types/node': 18.11.17
       prettier: 2.8.1
-      ttypescript: 1.5.15_typescript@4.9.4
       typescript: 4.9.4
 
   packages/node:
@@ -73,20 +71,22 @@ importers:
 
   packages/parser:
     specifiers:
-      '@swc/cli': ^0.1.57
-      '@swc/core': ^1.3.24
+      '@trivago/prettier-plugin-sort-imports': ^4.0.0
       '@types/node': ^18.11.17
+      node: workspace:^0.1.0
+      prettier: ^2.8.1
       ttypescript: ^1.5.15
       typescript: ^4.9.4
       typia: ^3.4.15
     dependencies:
-      '@types/node': 18.11.17
-      typescript: 4.9.4
+      node: link:../node
       typia: 3.4.15_bdozwspg4olslwdzpxy3uyklu4
     devDependencies:
-      '@swc/cli': 0.1.57_@swc+core@1.3.24
-      '@swc/core': 1.3.24
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.1
+      '@types/node': 18.11.17
+      prettier: 2.8.1
       ttypescript: 1.5.15_typescript@4.9.4
+      typescript: 4.9.4
 
 packages:
 
