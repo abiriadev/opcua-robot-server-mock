@@ -10,14 +10,18 @@
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "GPL-3.0",
 	"dependencies": {
-		"@types/node": "^18.11.17",
-		"class-transformer": "^0.5.1",
+		"dotenv": "^16.0.3",
+		"node": "workspace:^0.1.0",
 		"node-opcua": "^2.87.0",
-		"reflect-metadata": "^0.1.13",
-		"typescript": "^4.9.4"
+		"typia": "^3.4.15"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.1.57",
-		"@swc/core": "^1.3.24"
+		"@swc/core": "^1.3.24",
+		"@trivago/prettier-plugin-sort-imports": "^4.0.0",
+		"@types/node": "^18.11.17",
+		"prettier": "^2.8.1",
+		"ttypescript": "^1.5.15",
+		"typescript": "^4.9.4"
 	}
 }
