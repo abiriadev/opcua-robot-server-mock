@@ -1,0 +1,17 @@
+{
+	"prettier": true,
+	"rules": {
+		"import/extensions": [
+			"error",
+			"ignorePackages",
+			{
+				"ts": "never"
+			}
+		],
+		"new-cap": "off",
+		"no-warning-comments": "off",
+		"unicorn/no-await-expression-member": "off",
+		"@typescript-eslint/array-type": "off",
+		"@typescript-eslint/ban-types": "off"
+	}
+}
