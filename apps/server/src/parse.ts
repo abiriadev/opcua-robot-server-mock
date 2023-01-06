@@ -1,6 +1,7 @@
 import { readFile } from 'fs/promises'
 import { Node } from 'node'
-import { isParse } from 'parser'
+
+// import { isParse } from 'parser'
 
 // parse json file into Node tree.
 // WARN: this function is not safe.
@@ -15,9 +16,9 @@ export const parse = async (): Promise<Array<Node>> => {
 			`environment variable 'OPC_TREE_FILE' must to be set before run`,
 		)
 
-	const result = isParse(
+	const result = JSON.parse(
 		(await readFile(file)).toString(),
-	)
+	) as unknown as Array<Node>
 
 	if (result === null)
 		throw new Error(

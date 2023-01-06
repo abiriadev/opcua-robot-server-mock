@@ -1,6 +1,11 @@
 import { config } from 'dotenv'
-import { Node } from 'node'
-import { Namespace, NodeId, OPCUAServer } from 'node-opcua'
+import { Node, NodeClass, ObjectNode } from 'node'
+import {
+	Namespace,
+	NodeId,
+	NodeIdLike,
+	OPCUAServer,
+} from 'node-opcua'
 
 import { parse } from './parse'
 
@@ -29,15 +34,21 @@ const nodeExists = (
 	return ns.findNode(nid) !== null
 }
 
-const rec = (ns: Namespace, node: Node, pnid: string) => {
+const rec = (
+	ns: Namespace,
+	node: Node,
+	pnid: NodeIdLike,
+) => {
 	if (!nodeExists(ns, node.nodeId)) {
-		if (node.nodeClass === 'Object') {
+		if (node.nodeClass === NodeClass.Object) {
 			const nwob = ns.addObject({
 				browseName: node.browseName,
 				organizedBy: pnid,
 				displayName: node.displayName,
 				nodeId: node.nodeId,
-				typeDefinition: node.typeDefinition,
+				// typeDefinition: (
+				// 	node as unknown as ObjectNode
+				// ).typeDefinition,
 			})
 
 			console.log(
@@ -48,7 +59,10 @@ const rec = (ns: Namespace, node: Node, pnid: string) => {
 		}
 	}
 
-	node.children.map(child => rec(ns, child, node.nodeId))
+	node.references.objects.map(child =>
+		// @ts-ignore
+		rec(ns, child, node.nodeId),
+	)
 }
 
 void (async () => {
@@ -60,12 +74,10 @@ void (async () => {
 
 	const nodeTree = await parse()
 
-	const o = nodeTree.find(n => n.browseName === 'Objects')
-	if (o === undefined) throw new Error('bbbbb')
-	// rec(ns, o)
-	const x = addressSpace?.rootFolder.objects
-	if (x === undefined) throw new Error('xxxxx')
-	o.children.map(ch => rec(ns, ch, o.nodeId))
+	const dev = nodeTree[0].references.objects[2]
+	// .map(ch => rec(ns, ch, 'RootFolder'))
+	// @ts-ignore
+	rec(ns, dev, 'ObjectsFolder')
 
 	await server.start()
 

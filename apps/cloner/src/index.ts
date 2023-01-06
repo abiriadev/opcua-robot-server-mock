@@ -3,7 +3,12 @@ import { writeFile } from 'node:fs/promises'
 import { exit } from 'node:process'
 
 import { config } from 'dotenv'
-// import { Node } from 'node'
+import {
+	Node,
+	NodeClass as NodeClassString,
+	ObjectNode,
+	VariableNode,
+} from 'node'
 import {
 	AttributeIds,
 	type ClientSession,
@@ -15,16 +20,14 @@ import {
 	Variant,
 } from 'node-opcua'
 
-// import { assertStringify } from 'parser'
 import {
-	Node,
-	NodeClass as NodeClassString,
-	References,
-	VariableNode,
 	coerceLocalizedText,
 	coerceQualifiedName,
-} from './types/fullNode'
-import { ObjectNode } from './types/fullNode'
+} from './utils/coerce'
+import {
+	AttributeIdString,
+	attributeIdStringToAttributeId,
+} from './utils/opcua-attr'
 
 // dotenv setup
 config()
@@ -78,104 +81,6 @@ const assertReadOnlyMapFactory = <T, U>(map: Map<T, U>) => {
 
 	return (key: T, defaultValue?: U) =>
 		aromap.get(key, defaultValue)
-}
-
-// WARN: this code may be moved into separate workspace.
-type AttributeIdString =
-	| 'NodeId'
-	| 'NodeClass'
-	| 'BrowseName'
-	| 'DisplayName'
-	| 'Description'
-	| 'WriteMask'
-	| 'UserWriteMask'
-	| 'IsAbstract'
-	| 'Symmetric'
-	| 'InverseName'
-	| 'ContainsNoLoops'
-	| 'EventNotifier'
-	| 'Value'
-	| 'DataType'
-	| 'ValueRank'
-	| 'ArrayDimensions'
-	| 'AccessLevel'
-	| 'UserAccessLevel'
-	| 'MinimumSamplingInterval'
-	| 'Historizing'
-	| 'Executable'
-	| 'UserExecutable'
-	| 'DataTypeDefinition'
-	| 'RolePermissions'
-	| 'UserRolePermissions'
-	| 'AccessRestrictions'
-	| 'AccessLevelEx'
-	| 'INVALID'
-
-// 1:1 mapping from OPCUA's AttributeIds to AttributeIdString.
-// WARN: this code may be moved into separate workspace.
-const attributeIdStringToAttributeId = (
-	attr: AttributeIdString,
-) => {
-	switch (attr) {
-		case 'NodeId':
-			return AttributeIds.NodeId
-		case 'NodeClass':
-			return AttributeIds.NodeClass
-		case 'BrowseName':
-			return AttributeIds.BrowseName
-		case 'DisplayName':
-			return AttributeIds.DisplayName
-		case 'Description':
-			return AttributeIds.Description
-		case 'WriteMask':
-			return AttributeIds.WriteMask
-		case 'UserWriteMask':
-			return AttributeIds.UserWriteMask
-		case 'IsAbstract':
-			return AttributeIds.IsAbstract
-		case 'Symmetric':
-			return AttributeIds.Symmetric
-		case 'InverseName':
-			return AttributeIds.InverseName
-		case 'ContainsNoLoops':
-			return AttributeIds.ContainsNoLoops
-		case 'EventNotifier':
-			return AttributeIds.EventNotifier
-		case 'Value':
-			return AttributeIds.Value
-		case 'DataType':
-			return AttributeIds.DataType
-		case 'ValueRank':
-			return AttributeIds.ValueRank
-		case 'ArrayDimensions':
-			return AttributeIds.ArrayDimensions
-		case 'AccessLevel':
-			return AttributeIds.AccessLevel
-		case 'UserAccessLevel':
-			return AttributeIds.UserAccessLevel
-		case 'MinimumSamplingInterval':
-			return AttributeIds.MinimumSamplingInterval
-		case 'Historizing':
-			return AttributeIds.Historizing
-		case 'Executable':
-			return AttributeIds.Executable
-		case 'UserExecutable':
-			return AttributeIds.UserExecutable
-		case 'DataTypeDefinition':
-			return AttributeIds.DataTypeDefinition
-		case 'RolePermissions':
-			return AttributeIds.RolePermissions
-		case 'UserRolePermissions':
-			return AttributeIds.UserRolePermissions
-		case 'AccessRestrictions':
-			return AttributeIds.AccessRestrictions
-		case 'AccessLevelEx':
-			return AttributeIds.AccessLevelEx
-		case 'INVALID':
-			return AttributeIds.INVALID
-		default:
-			throw new TypeError(`unreachable!`)
-	}
 }
 
 // allow readAttr function to accept strings instead of direct Enum
@@ -283,13 +188,17 @@ const explore = async (
 			nodeId: refNodeId.toString(),
 			references: {
 				// grouping by their nodeClass.
+				// @ts-ignore
 				objects: children.filter(
-					(child): child is ObjectNode =>
+					// @ts-ignore
+					(child: Node): child is ObjectNode =>
 						child.nodeClass ===
 						NodeClassString.Object,
 				),
+				// @ts-ignore
 				variables: children.filter(
-					(child): child is VariableNode =>
+					// @ts-ignore
+					(child: Node): child is VariableNode =>
 						child.nodeClass ===
 						NodeClassString.Variable,
 				),
@@ -298,6 +207,7 @@ const explore = async (
 		}
 
 		if (ref.nodeClass === NodeClass.Object) {
+			// @ts-ignore
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Object,
@@ -321,6 +231,7 @@ const explore = async (
 				],
 			)
 
+			// @ts-ignore
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Variable,
@@ -338,14 +249,15 @@ const explore = async (
 		}
 	}
 
+	// @ts-ignore
 	return childrenArr
 }
 
 const printJson = async (
 	nodeTree: Array<Node>,
 ): Promise<void> => {
-	// const stringifiedNodeTree = assertStringify(nodeTree)
 	const stringifiedNodeTree = JSON.stringify(nodeTree)
+	// const stringifiedNodeTree = assertStringify(nodeTree)
 
 	if (process.env.OPC_TREE_OUTPUT === undefined)
 		process.stdout.write(stringifiedNodeTree)
