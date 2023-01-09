@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises'
-import { Node } from 'node'
+import { UaNode } from 'node'
 import { assertParse } from 'parser'
 
 // parse json file into Node tree.
@@ -7,7 +7,7 @@ import { assertParse } from 'parser'
 // it will throw various exceptions rather than handling them
 // to make this function more simpler to use.
 // this dirty behavior may change later.
-export const parse = async (): Promise<Array<Node>> => {
+export const parse = async (): Promise<Array<UaNode>> => {
 	const file = process.env.OPC_TREE_FILE
 
 	if (file === undefined)

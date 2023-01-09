@@ -1,3 +1,17 @@
-// NOTE: as of now, we can't simply stringify the NodeId class directly,
-// since it uses Buffer type under the hood, which is not parsed correctly in typia.
-export type NodeId = string
+export enum NodeIdType {
+	STRING = 'STRING',
+	NUMERIC = 'NUMERIC',
+}
+
+// redefined NodeId
+// WARN: this type does not support Buffer
+export type NodeId = (
+	| {
+			identifierType: NodeIdType.NUMERIC
+			value: number
+	  }
+	| {
+			identifierType: NodeIdType.STRING
+			value: string
+	  }
+) & { namespace: number }

@@ -5,9 +5,9 @@ import {
 	createIsStringify,
 	createStringify,
 } from 'typia'
-import { Node } from 'node'
+import { UaNode } from 'node'
 
-type T = Array<Node>
+type T = Array<UaNode>
 
 export const assertParse = createAssertParse<T>()
 

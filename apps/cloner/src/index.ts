@@ -7,6 +7,7 @@ import {
 	Node,
 	NodeClass as NodeClassString,
 	ObjectNode,
+	UaNode,
 	VariableNode,
 } from 'node'
 import {
@@ -26,6 +27,7 @@ import {
 	coerceLocalizedText,
 	coerceQualifiedName,
 } from './utils/coerce'
+import { fromNodeId } from './utils/node-id'
 import {
 	AttributeIdString,
 	attributeIdStringToAttributeId,
@@ -162,8 +164,6 @@ const explore = async (
 			typeDefinition,
 		} = ref
 
-		const children = await explore(session, ref.nodeId)
-
 		// early return
 		if (
 			![
@@ -187,28 +187,19 @@ const explore = async (
 			displayName: [displayName].map(
 				coerceLocalizedText,
 			),
-			nodeId: refNodeId.toString(),
-			references: {
-				// grouping by their nodeClass.
-				objects: children.filter(
-					(child: Node): child is ObjectNode =>
-						child.nodeClass ===
-						NodeClassString.Object,
-				),
-				variables: children.filter(
-					(child: Node): child is VariableNode =>
-						child.nodeClass ===
-						NodeClassString.Variable,
-				),
-			},
-			referenceTypeId: referenceTypeId.toString(),
+			nodeId: fromNodeId(refNodeId),
+			references: (await explore(
+				session,
+				ref.nodeId,
+			)) as Array<UaNode>,
+			referenceTypeId: fromNodeId(referenceTypeId),
 		}
 
 		if (ref.nodeClass === NodeClass.Object) {
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Object,
-				typeDefinition: typeDefinition.toString(),
+				typeDefinition: fromNodeId(referenceTypeId),
 			} as ObjectNode)
 		} else if (ref.nodeClass === NodeClass.Variable) {
 			// read required attributes at once
@@ -231,15 +222,13 @@ const explore = async (
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Variable,
-				typeDefinition: typeDefinition.toString(),
+				typeDefinition: fromNodeId(referenceTypeId),
 				accessLevel: attr('AccessLevel'),
 				arrayDimensions: (arr =>
 					arr instanceof Uint32Array
 						? Array.from(arr)
 						: arr)(attr('ArrayDimensions')),
-				dataType: (
-					attr('DataType') as DataType
-				).toString(),
+				dataType: fromNodeId(attr('DataType')),
 				historizing: attr('Historizing'),
 				minimumSamplingInterval: attr(
 					'MinimumSamplingInterval',

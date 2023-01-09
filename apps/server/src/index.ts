@@ -1,10 +1,18 @@
 import { config } from 'dotenv'
-import { Node, NodeClass, ObjectNode } from 'node'
+import {
+	Node,
+	NodeClass,
+	NodeId,
+	NodeIdType,
+	ObjectNode,
+	UaNode,
+} from 'node'
 import {
 	Namespace,
-	NodeId,
 	NodeIdLike,
 	OPCUAServer,
+	NodeId as OpcNodeId,
+	NodeIdType as OpcNodeIdType,
 } from 'node-opcua'
 
 import { parse } from './parse'
@@ -27,43 +35,52 @@ const server = new OPCUAServer({
 // NOTE: if namespace does not match, it will return true.
 const nodeExists = (
 	ns: Namespace,
-	nid: string | NodeId,
+	nid: string | OpcNodeId,
 ): boolean => {
-	const nodeId = NodeId.resolveNodeId(nid)
+	const nodeId = OpcNodeId.resolveNodeId(nid)
 
 	if (nodeId.namespace !== ns.index) return true
 
 	return ns.findNode(nid) !== null
 }
 
+const toNodeId = (nodeId: NodeId): OpcNodeId =>
+	new OpcNodeId(
+		nodeId.identifierType === NodeIdType.NUMERIC
+			? OpcNodeIdType.NUMERIC
+			: OpcNodeIdType.STRING,
+		nodeId.value,
+		nodeId.namespace,
+	)
+
 const rec = (
 	ns: Namespace,
-	node: Node,
+	node: UaNode,
 	pnid: NodeIdLike,
 ) => {
-	if (!nodeExists(ns, node.nodeId)) {
+	const nodeId = toNodeId(node.nodeId)
+
+	if (!nodeExists(ns, nodeId)) {
 		if (node.nodeClass === NodeClass.Object) {
 			const nwob = ns.addObject({
 				browseName: node.browseName,
 				organizedBy: pnid,
 				displayName: node.displayName,
-				nodeId: node.nodeId,
+				nodeId,
 				// typeDefinition: (
 				// 	node as unknown as ObjectNode
 				// ).typeDefinition,
 			})
 
 			console.log(
-				`${node.nodeId} (${
+				`${nodeId} (${
 					node.browseName
 				}) => ${nwob.nodeId.toString()}`,
 			)
 		}
 	}
 
-	node.references.objects.map(child =>
-		rec(ns, child, node.nodeId),
-	)
+	node.references.map(child => rec(ns, child, nodeId))
 }
 
 void (async () => {
@@ -75,9 +92,8 @@ void (async () => {
 
 	const nodeTree = await parse()
 
-	const dev = nodeTree[0].references.objects[2]
 	// .map(ch => rec(ns, ch, 'RootFolder'))
-	rec(ns, dev, 'ObjectsFolder')
+	rec(ns, nodeTree[0], 'RootFolder')
 
 	await server.start()
 

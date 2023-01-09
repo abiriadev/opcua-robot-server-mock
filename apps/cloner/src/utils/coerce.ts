@@ -18,6 +18,6 @@ export const coerceQualifiedName = (
 export const coerceLocalizedText = (
 	localizedText: OpcLocalizedText,
 ): LocalizedText => ({
-	locale: localizedText.locale ?? null,
+	locale: localizedText.locale || null,
 	text: localizedText.text ?? null,
 })

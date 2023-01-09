@@ -1,8 +1,8 @@
 import { LocalizedText } from '../localized-text'
-import { NodeClass } from '../node-class'
 import { NodeId } from '../node-id'
 import { QualifiedName } from '../qualified-name'
-import { References } from '../references'
+import { ObjectNode } from './object'
+import { VariableNode } from './variable'
 
 // represents a single node.
 // this is very similar to abstract class,
@@ -11,8 +11,10 @@ export interface Node {
 	browseName: QualifiedName
 	description: LocalizedText
 	displayName: Array<LocalizedText>
-	nodeClass: NodeClass
 	nodeId: NodeId
-	references: References
+	references: Array<UaNode>
 	referenceTypeId: NodeId
 }
+
+// all possible implementations of Node
+export type UaNode = ObjectNode | VariableNode
