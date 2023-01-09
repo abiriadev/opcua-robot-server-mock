@@ -1,4 +1,5 @@
 import { NodeId } from '../node-id'
+import { Node } from './node'
 
 export interface VariableNode extends Node {
 	accessLevel: number

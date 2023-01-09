@@ -12,6 +12,7 @@ import {
 import {
 	AttributeIds,
 	type ClientSession,
+	DataType,
 	LocalizedText,
 	NodeClass,
 	NodeId,
@@ -19,6 +20,7 @@ import {
 	OPCUAClient,
 	Variant,
 } from 'node-opcua'
+import { assertStringify } from 'parser'
 
 import {
 	coerceLocalizedText,
@@ -188,16 +190,12 @@ const explore = async (
 			nodeId: refNodeId.toString(),
 			references: {
 				// grouping by their nodeClass.
-				// @ts-ignore
 				objects: children.filter(
-					// @ts-ignore
 					(child: Node): child is ObjectNode =>
 						child.nodeClass ===
 						NodeClassString.Object,
 				),
-				// @ts-ignore
 				variables: children.filter(
-					// @ts-ignore
 					(child: Node): child is VariableNode =>
 						child.nodeClass ===
 						NodeClassString.Variable,
@@ -207,7 +205,6 @@ const explore = async (
 		}
 
 		if (ref.nodeClass === NodeClass.Object) {
-			// @ts-ignore
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Object,
@@ -231,14 +228,18 @@ const explore = async (
 				],
 			)
 
-			// @ts-ignore
 			childrenArr.push({
 				...shared,
 				nodeClass: NodeClassString.Variable,
 				typeDefinition: typeDefinition.toString(),
 				accessLevel: attr('AccessLevel'),
-				arrayDimensions: attr('ArrayDimensions'),
-				dataType: attr('DataType'),
+				arrayDimensions: (arr =>
+					arr instanceof Uint32Array
+						? Array.from(arr)
+						: arr)(attr('ArrayDimensions')),
+				dataType: (
+					attr('DataType') as DataType
+				).toString(),
 				historizing: attr('Historizing'),
 				minimumSamplingInterval: attr(
 					'MinimumSamplingInterval',
@@ -249,15 +250,16 @@ const explore = async (
 		}
 	}
 
-	// @ts-ignore
 	return childrenArr
 }
 
 const printJson = async (
 	nodeTree: Array<Node>,
 ): Promise<void> => {
-	const stringifiedNodeTree = JSON.stringify(nodeTree)
-	// const stringifiedNodeTree = assertStringify(nodeTree)
+	// const stringifiedNodeTree = JSON.stringify(nodeTree)
+	console.time('str')
+	const stringifiedNodeTree = assertStringify(nodeTree)
+	console.timeEnd('str')
 
 	if (process.env.OPC_TREE_OUTPUT === undefined)
 		process.stdout.write(stringifiedNodeTree)
@@ -285,12 +287,14 @@ void (async () => {
 
 		const session = await client.createSession()
 
+		console.time('exp')
 		const nodeTree = await explore(
 			session,
 			// this is the browseName of root folder,
 			// you should start browsing from here.
 			'RootFolder',
 		)
+		console.timeEnd('exp')
 
 		// close the connection before printing json
 		// which is slightly heavy job.

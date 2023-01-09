@@ -11,8 +11,10 @@ import { parse } from './parse'
 
 config()
 
+const SERVER_PORT = 14840
+
 const server = new OPCUAServer({
-	port: 4840,
+	port: SERVER_PORT,
 	resourcePath: '/',
 	buildInfo: {
 		productName: 'Robot',
@@ -60,7 +62,6 @@ const rec = (
 	}
 
 	node.references.objects.map(child =>
-		// @ts-ignore
 		rec(ns, child, node.nodeId),
 	)
 }
@@ -76,7 +77,6 @@ void (async () => {
 
 	const dev = nodeTree[0].references.objects[2]
 	// .map(ch => rec(ns, ch, 'RootFolder'))
-	// @ts-ignore
 	rec(ns, dev, 'ObjectsFolder')
 
 	await server.start()

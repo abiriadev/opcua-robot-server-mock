@@ -10,7 +10,7 @@
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "GPL-3.0",
 	"dependencies": {
-		"node": "workspace:^0.2.0",
+		"node": "workspace:^0.2.1",
 		"typia": "^3.4.18"
 	},
 	"devDependencies": {
