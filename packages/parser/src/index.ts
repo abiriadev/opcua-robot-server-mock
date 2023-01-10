@@ -1,19 +1,20 @@
-import { createAssertParse } from 'typia'
-import { Node } from './node'
+import {
+	createAssertParse,
+	createAssertStringify,
+	createIsParse,
+	createIsStringify,
+	createStringify,
+} from 'typia'
+import { UaNode } from 'node'
 
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+type T = Array<UaNode>
 
-const readRaw = async () =>
-	(
-		await readFile(join(__dirname, '..', 'data', 'tree-filtered.json'))
-	).toString()
+export const assertParse = createAssertParse<T>()
 
-export const parse = createAssertParse<Node>()
-export const readAndParse = async () => parse(await readRaw())
+export const isParse = createIsParse<T>()
 
-readAndParse().then(_ =>
-	console.dir(_, {
-		depth: null,
-	}),
-)
+export const stringify = createStringify<T>()
+
+export const isStringify = createIsStringify<T>()
+
+export const assertStringify = createAssertStringify<T>()
