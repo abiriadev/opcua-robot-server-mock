@@ -1,9 +1,14 @@
 import { config } from 'dotenv'
-import { NodeClass, NodeId, NodeIdType, UaNode } from 'node'
+import {
+	NodeClass,
+	type NodeId,
+	NodeIdType,
+	type UaNode,
+} from 'node'
 import {
 	DataType,
-	Namespace,
-	NodeIdLike,
+	type Namespace,
+	type NodeIdLike,
 	OPCUAServer,
 	NodeId as OpcNodeId,
 	NodeIdType as OpcNodeIdType,
@@ -13,10 +18,10 @@ import { parse } from './parse'
 
 config()
 
-const SERVER_PORT = 14840
+const serverPort = 14_840
 
 const server = new OPCUAServer({
-	port: SERVER_PORT,
+	port: serverPort,
 	resourcePath: '/',
 	buildInfo: {
 		productName: 'Robot',
@@ -25,7 +30,7 @@ const server = new OPCUAServer({
 	},
 })
 
-// check whether the given node id exists in current namespace.
+// Check whether the given node id exists in current namespace.
 // NOTE: if namespace does not match, it will return true.
 const nodeExists = (
 	ns: Namespace,
@@ -38,7 +43,7 @@ const nodeExists = (
 	return ns.findNode(nid) !== null
 }
 
-// convert NodeId to OpcNodeId
+// Convert NodeId to OpcNodeId
 const toNodeId = (nodeId: NodeId): OpcNodeId =>
 	new OpcNodeId(
 		nodeId.identifierType === NodeIdType.NUMERIC
@@ -50,14 +55,23 @@ const toNodeId = (nodeId: NodeId): OpcNodeId =>
 
 const getDefault = (dataType: DataType): unknown => {
 	switch (dataType) {
-		case DataType.Byte:
+		case DataType.Byte: {
 			return null
-		case DataType.String:
+		}
+
+		case DataType.String: {
 			return 'hello'
+		}
+
 		case DataType.UInt16:
 		case DataType.UInt32:
-		case DataType.UInt64:
+		case DataType.UInt64: {
 			return 123
+		}
+
+		default: {
+			return null
+		}
 	}
 }
 
@@ -98,6 +112,7 @@ const rec = (
 					node.typeDefinition,
 				),
 				userAccessLevel: node.userAccessLevel,
+				// eslint-disable-next-line unicorn/no-unreadable-iife
 				value: (dt => ({
 					dataType: dt,
 					value: getDefault(dt),
@@ -105,7 +120,9 @@ const rec = (
 					(x => {
 						if (x === null)
 							throw new Error(
-								`${node.dataType} must to be exist`,
+								`${toNodeId(
+									node.dataType,
+								).toString()} must to be exist`,
 							)
 						else return x
 					})(
@@ -119,7 +136,10 @@ const rec = (
 		}
 	}
 
-	node.references.map(child => rec(ns, child, nodeId))
+	// eslint-disable-next-line unicorn/no-array-for-each
+	node.references.forEach(child => {
+		rec(ns, child, nodeId)
+	})
 }
 
 void (async () => {
@@ -127,7 +147,8 @@ void (async () => {
 
 	const { addressSpace } = server.engine
 	const ns = addressSpace?.getOwnNamespace()
-	if (ns === undefined) throw new Error()
+	if (ns === undefined)
+		throw new Error('namespace was defined')
 
 	const nodeTree = await parse()
 

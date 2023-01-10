@@ -33,67 +33,125 @@ export type AttributeIdString =
 
 // 1:1 mapping from OPCUA's AttributeIds to AttributeIdString.
 // WARN: this code may be moved into separate workspace.
+// eslint-disable-next-line complexity
 export const attributeIdStringToAttributeId = (
 	attr: AttributeIdString,
 ) => {
 	switch (attr) {
-		case 'NodeId':
+		case 'NodeId': {
 			return AttributeIds.NodeId
-		case 'NodeClass':
+		}
+
+		case 'NodeClass': {
 			return AttributeIds.NodeClass
-		case 'BrowseName':
+		}
+
+		case 'BrowseName': {
 			return AttributeIds.BrowseName
-		case 'DisplayName':
+		}
+
+		case 'DisplayName': {
 			return AttributeIds.DisplayName
-		case 'Description':
+		}
+
+		case 'Description': {
 			return AttributeIds.Description
-		case 'WriteMask':
+		}
+
+		case 'WriteMask': {
 			return AttributeIds.WriteMask
-		case 'UserWriteMask':
+		}
+
+		case 'UserWriteMask': {
 			return AttributeIds.UserWriteMask
-		case 'IsAbstract':
+		}
+
+		case 'IsAbstract': {
 			return AttributeIds.IsAbstract
-		case 'Symmetric':
+		}
+
+		case 'Symmetric': {
 			return AttributeIds.Symmetric
-		case 'InverseName':
+		}
+
+		case 'InverseName': {
 			return AttributeIds.InverseName
-		case 'ContainsNoLoops':
+		}
+
+		case 'ContainsNoLoops': {
 			return AttributeIds.ContainsNoLoops
-		case 'EventNotifier':
+		}
+
+		case 'EventNotifier': {
 			return AttributeIds.EventNotifier
-		case 'Value':
+		}
+
+		case 'Value': {
 			return AttributeIds.Value
-		case 'DataType':
+		}
+
+		case 'DataType': {
 			return AttributeIds.DataType
-		case 'ValueRank':
+		}
+
+		case 'ValueRank': {
 			return AttributeIds.ValueRank
-		case 'ArrayDimensions':
+		}
+
+		case 'ArrayDimensions': {
 			return AttributeIds.ArrayDimensions
-		case 'AccessLevel':
+		}
+
+		case 'AccessLevel': {
 			return AttributeIds.AccessLevel
-		case 'UserAccessLevel':
+		}
+
+		case 'UserAccessLevel': {
 			return AttributeIds.UserAccessLevel
-		case 'MinimumSamplingInterval':
+		}
+
+		case 'MinimumSamplingInterval': {
 			return AttributeIds.MinimumSamplingInterval
-		case 'Historizing':
+		}
+
+		case 'Historizing': {
 			return AttributeIds.Historizing
-		case 'Executable':
+		}
+
+		case 'Executable': {
 			return AttributeIds.Executable
-		case 'UserExecutable':
+		}
+
+		case 'UserExecutable': {
 			return AttributeIds.UserExecutable
-		case 'DataTypeDefinition':
+		}
+
+		case 'DataTypeDefinition': {
 			return AttributeIds.DataTypeDefinition
-		case 'RolePermissions':
+		}
+
+		case 'RolePermissions': {
 			return AttributeIds.RolePermissions
-		case 'UserRolePermissions':
+		}
+
+		case 'UserRolePermissions': {
 			return AttributeIds.UserRolePermissions
-		case 'AccessRestrictions':
+		}
+
+		case 'AccessRestrictions': {
 			return AttributeIds.AccessRestrictions
-		case 'AccessLevelEx':
+		}
+
+		case 'AccessLevelEx': {
 			return AttributeIds.AccessLevelEx
-		case 'INVALID':
+		}
+
+		case 'INVALID': {
 			return AttributeIds.INVALID
-		default:
+		}
+
+		default: {
 			throw new TypeError(`unreachable!`)
+		}
 	}
 }

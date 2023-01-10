@@ -2,7 +2,13 @@
 	"name": "opcua-robot-server-mock",
 	"version": "0.1.0",
 	"description": "OPC UA server mock that emulates behavior of a robot arm",
-	"scripts": {},
+	"scripts": {
+		"build": "turbo build",
+		"format": "prettier ./package.json ./turbo.json ./pnpm-workspace.yaml -w",
+		"format:all": "turbo format",
+		"lint": "turbo lint",
+		"all": "turbo format lint build start"
+	},
 	"keywords": [
 		"OPC",
 		"opcua",
@@ -11,5 +17,9 @@
 		"robotics"
 	],
 	"author": "Abiria <abiria.dev@gmail.com>",
-	"license": "GPL-3.0"
+	"license": "GPL-3.0",
+	"devDependencies": {
+		"prettier": "^2.8.2",
+		"turbo": "^1.6.3"
+	}
 }

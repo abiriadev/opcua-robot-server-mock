@@ -1,10 +1,10 @@
-import { LocalizedText } from '../localized-text'
-import { NodeId } from '../node-id'
-import { QualifiedName } from '../qualified-name'
-import { ObjectNode } from './object'
-import { VariableNode } from './variable'
+import { type LocalizedText } from '../localized-text'
+import { type NodeId } from '../node-id'
+import { type QualifiedName } from '../qualified-name'
+import { type ObjectNode } from './object'
+import { type VariableNode } from './variable'
 
-// represents a single node.
+// Represents a single node.
 // this is very similar to abstract class,
 // which can not be instantiated itself.
 export interface Node {
@@ -16,5 +16,5 @@ export interface Node {
 	referenceTypeId: NodeId
 }
 
-// all possible implementations of Node
+// All possible implementations of Node
 export type UaNode = ObjectNode | VariableNode

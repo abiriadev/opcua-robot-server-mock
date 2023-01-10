@@ -1,0 +1,26 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"pipeline": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist"]
+		},
+		"lint": {
+			"outputs": []
+		},
+		"format": {
+			"outputs": []
+		},
+		"//#format": {
+			"outputs": []
+		},
+		"cloner#start": {
+			"dependsOn": ["build"],
+			"outputs": ["tree.json"]
+		},
+		"server#start": {
+			"dependsOn": ["build", "cloner#start"],
+			"cache": false
+		}
+	}
+}

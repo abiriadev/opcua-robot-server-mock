@@ -1,3 +1,4 @@
+import { type UaNode } from 'node'
 import {
 	createAssertParse,
 	createAssertStringify,
@@ -5,7 +6,6 @@ import {
 	createIsStringify,
 	createStringify,
 } from 'typia'
-import { UaNode } from 'node'
 
 type T = Array<UaNode>
 

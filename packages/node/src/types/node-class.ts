@@ -1,4 +1,4 @@
-// enum with string representation
+// Enum with string representation
 // NOTE: this might change in the future,
 // to directly use string union instead.
 export enum NodeClass {

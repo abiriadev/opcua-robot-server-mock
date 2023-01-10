@@ -1,0 +1,19 @@
+{
+	"name": "eslint-config-custom",
+	"version": "0.1.0",
+	"description": "shared eslint config",
+	"main": "eslint.yaml",
+	"scripts": {
+		"format": "prettier . -w"
+	},
+	"keywords": [
+		"eslint",
+		"xo"
+	],
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "^2.8.2",
+		"prettierrc": "workspace:^0.1.0"
+	}
+}

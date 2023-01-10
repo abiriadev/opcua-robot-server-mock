@@ -1,25 +1,24 @@
 import { equal } from 'node:assert/strict'
 import { writeFile } from 'node:fs/promises'
-import { exit } from 'node:process'
+import { env, exit, stdout } from 'node:process'
 
 import { config } from 'dotenv'
 import {
-	Node,
+	type Node,
 	NodeClass as NodeClassString,
-	ObjectNode,
-	UaNode,
-	VariableNode,
+	type ObjectNode,
+	type UaNode,
+	type VariableNode,
 } from 'node'
 import {
-	AttributeIds,
+	type AttributeIds,
 	type ClientSession,
-	DataType,
-	LocalizedText,
+	type LocalizedText,
 	NodeClass,
-	NodeId,
-	NodeIdLike,
+	type NodeId,
+	type NodeIdLike,
 	OPCUAClient,
-	Variant,
+	type Variant,
 } from 'node-opcua'
 import { assertStringify } from 'parser'
 
@@ -29,14 +28,14 @@ import {
 } from './utils/coerce'
 import { fromNodeId } from './utils/node-id'
 import {
-	AttributeIdString,
+	type AttributeIdString,
 	attributeIdStringToAttributeId,
 } from './utils/opcua-attr'
 
-// dotenv setup
+// Dotenv setup
 config()
 
-// read multiple attributes from specific node at once
+// Read multiple attributes from specific node at once
 const readAttr = async (
 	session: ClientSession,
 	nodeId: NodeIdLike,
@@ -59,7 +58,7 @@ const readAttr = async (
 	)
 }
 
-// asserts that for all given keys, corresponding values must always be exist in this map.
+// Asserts that for all given keys, corresponding values must always be exist in this map.
 // otherwise, you can also provide a default value to be returned when there is no matching value.
 class AssertReadOnlyMap<T, U> {
 	constructor(private readonly map: Map<T, U>) {}
@@ -69,7 +68,7 @@ class AssertReadOnlyMap<T, U> {
 			this.map.get(key) ??
 			defaultValue ??
 			(() => {
-				throw new Error(`key ${key} does not exist`)
+				throw new Error(`key does not exist`)
 			})()
 		)
 	}
@@ -79,7 +78,7 @@ class AssertReadOnlyMap<T, U> {
 	}
 }
 
-// make it easy to use above class
+// Make it easy to use above class
 const assertReadOnlyMapFactory = <T, U>(map: Map<T, U>) => {
 	const aromap = new AssertReadOnlyMap(map)
 
@@ -87,8 +86,8 @@ const assertReadOnlyMapFactory = <T, U>(map: Map<T, U>) => {
 		aromap.get(key, defaultValue)
 }
 
-// allow readAttr function to accept strings instead of direct Enum
-const readAttrStr = async (
+// Allow readAttr function to accept strings instead of direct Enum
+const readAttrString = async (
 	session: ClientSession,
 	nodeId: NodeIdLike,
 	attributeIds: Array<AttributeIdString>,
@@ -96,6 +95,7 @@ const readAttrStr = async (
 	readAttr(
 		session,
 		nodeId,
+		// eslint-disable-next-line unicorn/no-array-callback-reference
 		attributeIds.map(attributeIdStringToAttributeId),
 	)
 
@@ -107,7 +107,7 @@ const assertReadOnlyMapStringAdaptor =
 			defaultValue,
 		)
 
-// shorthand for unwrapping `.value` field inside `Variant` class
+// Shorthand for unwrapping `.value` field inside `Variant` class
 const unwrapValue =
 	(
 		cb: (
@@ -115,8 +115,8 @@ const unwrapValue =
 			defaultValue?: Variant,
 		) => Variant,
 	) =>
-	(attr: AttributeIdString, defaultValue?: Variant) =>
-		cb(attr, defaultValue).value
+	(attr: AttributeIdString, defaultvalue?: Variant) =>
+		cb(attr, defaultvalue).value as unknown
 
 const simpleAttr = async (
 	session: ClientSession,
@@ -126,7 +126,7 @@ const simpleAttr = async (
 	unwrapValue(
 		assertReadOnlyMapStringAdaptor(
 			assertReadOnlyMapFactory(
-				await readAttrStr(
+				await readAttrString(
 					session,
 					nodeId,
 					attributeIds,
@@ -135,7 +135,7 @@ const simpleAttr = async (
 		),
 	)
 
-// one-time execution interface of above codes
+// One-time execution interface of above codes
 const getSingleAttribute = async (
 	session: ClientSession,
 	nodeId: NodeId,
@@ -145,13 +145,13 @@ const getSingleAttribute = async (
 		attributeId,
 	)
 
-// recursively explore node tree
+// Recursively explore node tree
 // NOTE: this function returns array of Nodes, not a single Node.
 const explore = async (
 	session: ClientSession,
 	nodeId: NodeIdLike,
 ): Promise<Array<Node>> => {
-	let childrenArr = []
+	const childrenArray = []
 
 	for (const ref of (
 		await session.browse(nodeId.toString())
@@ -161,10 +161,9 @@ const explore = async (
 			displayName,
 			nodeId: refNodeId,
 			referenceTypeId,
-			typeDefinition,
 		} = ref
 
-		// early return
+		// Early return
 		if (
 			![
 				NodeClass.Object,
@@ -173,21 +172,24 @@ const explore = async (
 		)
 			continue
 
-		// shared contents for all NodeClass
+		// Shared contents for all NodeClass
 		const shared: Omit<Node, 'nodeClass'> = {
 			browseName: coerceQualifiedName(browseName),
 			description: coerceLocalizedText(
+				// eslint-disable-next-line no-await-in-loop
 				(await getSingleAttribute(
 					session,
 					ref.nodeId,
 					'Description',
 				)) as LocalizedText,
 			),
-			// displayName must to be an Array.
+			// DisplayName must to be an Array.
 			displayName: [displayName].map(
+				// eslint-disable-next-line unicorn/no-array-callback-reference
 				coerceLocalizedText,
 			),
 			nodeId: fromNodeId(refNodeId),
+			// eslint-disable-next-line no-await-in-loop
 			references: (await explore(
 				session,
 				ref.nodeId,
@@ -196,13 +198,14 @@ const explore = async (
 		}
 
 		if (ref.nodeClass === NodeClass.Object) {
-			childrenArr.push({
+			childrenArray.push({
 				...shared,
 				nodeClass: NodeClassString.Object,
 				typeDefinition: fromNodeId(referenceTypeId),
 			} as ObjectNode)
 		} else if (ref.nodeClass === NodeClass.Variable) {
-			// read required attributes at once
+			// Read required attributes at once
+			// eslint-disable-next-line no-await-in-loop
 			const attr = await simpleAttr(
 				session,
 				ref.nodeId,
@@ -219,51 +222,58 @@ const explore = async (
 				],
 			)
 
-			childrenArr.push({
+			childrenArray.push({
 				...shared,
 				nodeClass: NodeClassString.Variable,
 				typeDefinition: fromNodeId(referenceTypeId),
-				accessLevel: attr('AccessLevel'),
-				arrayDimensions: (arr =>
-					arr instanceof Uint32Array
-						? Array.from(arr)
-						: arr)(attr('ArrayDimensions')),
-				dataType: fromNodeId(attr('DataType')),
-				historizing: attr('Historizing'),
+				accessLevel: attr('AccessLevel') as number,
+				arrayDimensions: (array =>
+					array instanceof Uint32Array
+						? Array.from(array)
+						: array)(
+					attr(
+						'ArrayDimensions',
+					) as Array<number> | null,
+				),
+				dataType: fromNodeId(
+					attr('DataType') as NodeId,
+				),
+				historizing: attr('Historizing') as boolean,
 				minimumSamplingInterval: attr(
 					'MinimumSamplingInterval',
-				),
-				userAccessLevel: attr('UserAccessLevel'),
-				valueRank: attr('ValueRank'),
+				) as number,
+				userAccessLevel: attr(
+					'UserAccessLevel',
+				) as number,
+				valueRank: attr('ValueRank') as number,
 			} as VariableNode)
 		}
 	}
 
-	return childrenArr
+	return childrenArray
 }
 
 const printJson = async (
 	nodeTree: Array<Node>,
 ): Promise<void> => {
-	// const stringifiedNodeTree = JSON.stringify(nodeTree)
+	// Const stringifiedNodeTree = JSON.stringify(nodeTree)
 	console.time('str')
 	const stringifiedNodeTree = assertStringify(nodeTree)
 	console.timeEnd('str')
 
-	if (process.env.OPC_TREE_OUTPUT === undefined)
-		process.stdout.write(stringifiedNodeTree)
+	if (env.OPC_TREE_OUTPUT === undefined)
+		stdout.write(stringifiedNodeTree)
 	else
 		await writeFile(
-			process.env.OPC_TREE_OUTPUT,
+			env.OPC_TREE_OUTPUT,
 			stringifiedNodeTree,
 		)
 }
 
-// swc does not support TLA in commonjs
+// Swc does not support TLA in commonjs
 void (async () => {
 	try {
-		const endpointUrl =
-			process.env.OPC_SOURCE_SERVER_URL
+		const endpointUrl = env.OPC_SOURCE_SERVER_URL
 		if (endpointUrl === undefined)
 			throw new TypeError(
 				`environment variable 'OPC_SOURCE_SERVER_URL' must to be set before run`,
@@ -279,24 +289,24 @@ void (async () => {
 		console.time('exp')
 		const nodeTree = await explore(
 			session,
-			// this is the browseName of root folder,
+			// This is the browseName of root folder,
 			// you should start browsing from here.
 			'RootFolder',
 		)
 		console.timeEnd('exp')
 
-		// close the connection before printing json
+		// Close the connection before printing json
 		// which is slightly heavy job.
 		await session.close()
 		await client.disconnect()
 
-		printJson(nodeTree)
+		await printJson(nodeTree)
 	} catch (error: unknown) {
-		// print error in stderr if possible.
+		// Print error in stderr if possible.
 		if (error instanceof Error)
 			console.error(error.message)
 
-		// abnormal exit
+		// Abnormal exit
 		exit(1)
 	}
 })()

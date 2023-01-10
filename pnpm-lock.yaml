@@ -3,7 +3,12 @@ lockfileVersion: 5.4
 importers:
 
   .:
-    specifiers: {}
+    specifiers:
+      prettier: ^2.8.2
+      turbo: ^1.6.3
+    devDependencies:
+      prettier: 2.8.2
+      turbo: 1.6.3
 
   apps/cloner:
     specifiers:
@@ -12,10 +17,13 @@ importers:
       '@trivago/prettier-plugin-sort-imports': ^4.0.0
       '@types/node': ^18.11.18
       dotenv: ^16.0.3
-      node: workspace:^0.3.0
+      eslint-config-custom: workspace:^0.1.0
+      node: workspace:^0.4.0
       node-opcua: ^2.88.0
-      parser: workspace:^0.5.0
-      prettier: ^2.8.1
+      parser: workspace:^0.6.0
+      prettier: ^2.8.2
+      prettierrc: workspace:^0.1.0
+      tsconfig: workspace:^0.1.0
       typescript: ^4.9.4
       xo: ^0.53.1
     dependencies:
@@ -26,9 +34,12 @@ importers:
     devDependencies:
       '@swc/cli': 0.1.59_@swc+core@1.3.25
       '@swc/core': 1.3.25
-      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.1
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.2
       '@types/node': 18.11.18
-      prettier: 2.8.1
+      eslint-config-custom: link:../../packages/eslint-config-custom
+      prettier: 2.8.2
+      prettierrc: link:../../packages/prettierrc
+      tsconfig: link:../../packages/tsconfig
       typescript: 4.9.4
       xo: 0.53.1
 
@@ -39,11 +50,15 @@ importers:
       '@trivago/prettier-plugin-sort-imports': ^4.0.0
       '@types/node': ^18.11.18
       dotenv: ^16.0.3
-      node: workspace:^0.3.0
+      eslint-config-custom: workspace:^0.1.0
+      node: workspace:^0.4.0
       node-opcua: ^2.88.0
-      parser: workspace:^0.5.0
-      prettier: ^2.8.1
+      parser: workspace:^0.6.0
+      prettier: ^2.8.2
+      prettierrc: workspace:^0.1.0
+      tsconfig: workspace:^0.1.0
       typescript: ^4.9.4
+      xo: ^0.53.1
     dependencies:
       dotenv: 16.0.3
       node: link:../../packages/node
@@ -52,34 +67,80 @@ importers:
     devDependencies:
       '@swc/cli': 0.1.59_@swc+core@1.3.25
       '@swc/core': 1.3.25
-      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.1
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.2
       '@types/node': 18.11.18
-      prettier: 2.8.1
+      eslint-config-custom: link:../../packages/eslint-config-custom
+      prettier: 2.8.2
+      prettierrc: link:../../packages/prettierrc
+      tsconfig: link:../../packages/tsconfig
       typescript: 4.9.4
+      xo: 0.53.1
+
+  packages/eslint-config-custom:
+    specifiers:
+      prettier: ^2.8.2
+      prettierrc: workspace:^0.1.0
+    devDependencies:
+      prettier: 2.8.2
+      prettierrc: link:../prettierrc
 
   packages/node:
     specifiers:
-      prettier: ^2.8.1
+      '@trivago/prettier-plugin-sort-imports': ^4.0.0
+      eslint-config-custom: workspace:^0.1.0
+      prettier: ^2.8.2
+      prettierrc: workspace:^0.1.0
+      tsconfig: workspace:^0.1.0
       typescript: ^4.9.4
+      xo: ^0.53.1
     devDependencies:
-      prettier: 2.8.1
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.2
+      eslint-config-custom: link:../eslint-config-custom
+      prettier: 2.8.2
+      prettierrc: link:../prettierrc
+      tsconfig: link:../tsconfig
       typescript: 4.9.4
+      xo: 0.53.1
 
   packages/parser:
     specifiers:
       '@trivago/prettier-plugin-sort-imports': ^4.0.0
-      node: workspace:^0.3.0
-      prettier: ^2.8.1
+      eslint-config-custom: workspace:^0.1.0
+      node: workspace:^0.4.0
+      prettier: ^2.8.2
+      prettierrc: workspace:^0.1.0
+      tsconfig: workspace:^0.1.0
       ttypescript: ^1.5.15
       typescript: ^4.9.4
-      typia: ^3.4.18
+      typia: ^3.4.20
+      xo: ^0.53.1
     dependencies:
       node: link:../node
-      typia: 3.4.18_bdozwspg4olslwdzpxy3uyklu4
+      typia: 3.4.20_bdozwspg4olslwdzpxy3uyklu4
     devDependencies:
-      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.1
-      prettier: 2.8.1
+      '@trivago/prettier-plugin-sort-imports': 4.0.0_prettier@2.8.2
+      eslint-config-custom: link:../eslint-config-custom
+      prettier: 2.8.2
+      prettierrc: link:../prettierrc
+      tsconfig: link:../tsconfig
       ttypescript: 1.5.15_typescript@4.9.4
+      typescript: 4.9.4
+      xo: 0.53.1
+
+  packages/prettierrc:
+    specifiers:
+      prettier: ^2.8.2
+    devDependencies:
+      prettier: 2.8.2
+
+  packages/tsconfig:
+    specifiers:
+      prettier: ^2.8.1
+      prettierrc: workspace:^0.1.0
+      typescript: ^4.9.4
+    devDependencies:
+      prettier: 2.8.1
+      prettierrc: link:../prettierrc
       typescript: 4.9.4
 
 packages:
@@ -565,7 +626,7 @@ packages:
       '@swc/core-win32-x64-msvc': 1.3.25
     dev: true
 
-  /@trivago/prettier-plugin-sort-imports/4.0.0_prettier@2.8.1:
+  /@trivago/prettier-plugin-sort-imports/4.0.0_prettier@2.8.2:
     resolution: {integrity: sha512-Tyuk5ZY4a0e2MNFLdluQO9F6d1awFQYXVVujEPFfvKPPXz8DADNHzz73NMhwCSXGSuGGZcA/rKOyZBrxVNMxaA==}
     peerDependencies:
       '@vue/compiler-sfc': 3.x
@@ -578,7 +639,7 @@ packages:
       '@babel/types': 7.17.0
       javascript-natural-sort: 0.7.1
       lodash: 4.17.21
-      prettier: 2.8.1
+      prettier: 2.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1843,7 +1904,7 @@ packages:
       is-proto-prop: 2.0.0
     dev: true
 
-  /eslint-plugin-prettier/4.2.1_32m5uc2milwdw3tnkcq5del26y:
+  /eslint-plugin-prettier/4.2.1_iu5s7nk6dw7o3tajefwfiqfmge:
     resolution: {integrity: sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
@@ -1856,7 +1917,7 @@ packages:
     dependencies:
       eslint: 8.31.0
       eslint-config-prettier: 8.6.0_eslint@8.31.0
-      prettier: 2.8.1
+      prettier: 2.8.2
       prettier-linter-helpers: 1.0.0
     dev: true
 
@@ -3356,7 +3417,7 @@ packages:
       node-opcua-crypto: 2.1.2
       node-opcua-debug: 2.88.0
       node-opcua-object-registry: 2.88.0
-      node-opcua-pki: 3.0.1
+      node-opcua-pki: 3.0.2
       node-opcua-status-code: 2.88.0
       thenify: 3.3.1
     dev: false
@@ -3385,7 +3446,7 @@ packages:
       node-opcua-data-value: 2.88.0
       node-opcua-debug: 2.88.0
       node-opcua-nodeid: 2.88.0
-      node-opcua-pki: 3.0.1
+      node-opcua-pki: 3.0.2
       node-opcua-service-browse: 2.88.0
       node-opcua-status-code: 2.88.0
       node-opcua-types: 2.88.0
@@ -3462,7 +3523,7 @@ packages:
       node-opcua-hostname: 2.88.0
       node-opcua-nodeid: 2.88.0
       node-opcua-object-registry: 2.88.0
-      node-opcua-pki: 3.0.1
+      node-opcua-pki: 3.0.2
       node-opcua-pseudo-session: 2.88.0
       node-opcua-schemas: 2.88.0
       node-opcua-secure-channel: 2.88.0
@@ -3675,8 +3736,8 @@ packages:
       node-opcua-debug: 2.88.0
     dev: false
 
-  /node-opcua-pki/3.0.1:
-    resolution: {integrity: sha512-qrownrkkEvLfo64yDK9MxurgT1PtZcYPWCV8F+UiWR9ek7vAw75BdzI9tlII5XUFid+o091TRAqruG6ef9Ypeg==}
+  /node-opcua-pki/3.0.2:
+    resolution: {integrity: sha512-ugf2byDT/fED1XDmXIE2UpF+W5UBrTxtey27PJbXRBGVDjr2pCgjHgu67tO/35hYGFMW2Xtdyun8UPW3ScKdaw==}
     hasBin: true
     dependencies:
       '@ster5/global-mutex': 1.2.0
@@ -4474,6 +4535,12 @@ packages:
     hasBin: true
     dev: true
 
+  /prettier/2.8.2:
+    resolution: {integrity: sha512-BtRV9BcncDyI2tsuS19zzhzoxD8Dh8LiCx7j7tHzrkz8GFXAexeWFdi22mjE1d16dftH2qNaytVxqiRTGlMfpw==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
+    dev: true
+
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
     dev: true
@@ -5085,6 +5152,67 @@ packages:
     engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
+  /turbo-darwin-64/1.6.3:
+    resolution: {integrity: sha512-QmDIX0Yh1wYQl0bUS0gGWwNxpJwrzZU2GIAYt3aOKoirWA2ecnyb3R6ludcS1znfNV2MfunP+l8E3ncxUHwtjA==}
+    cpu: [x64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-darwin-arm64/1.6.3:
+    resolution: {integrity: sha512-75DXhFpwE7CinBbtxTxH08EcWrxYSPFow3NaeFwsG8aymkWXF+U2aukYHJA6I12n9/dGqf7yRXzkF0S/9UtdyQ==}
+    cpu: [arm64]
+    os: [darwin]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-64/1.6.3:
+    resolution: {integrity: sha512-O9uc6J0yoRPWdPg9THRQi69K6E2iZ98cRHNvus05lZbcPzZTxJYkYGb5iagCmCW/pq6fL4T4oLWAd6evg2LGQA==}
+    cpu: [x64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-linux-arm64/1.6.3:
+    resolution: {integrity: sha512-dCy667qqEtZIhulsRTe8hhWQNCJO0i20uHXv7KjLHuFZGCeMbWxB8rsneRoY+blf8+QNqGuXQJxak7ayjHLxiA==}
+    cpu: [arm64]
+    os: [linux]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-64/1.6.3:
+    resolution: {integrity: sha512-lKRqwL3mrVF09b9KySSaOwetehmGknV9EcQTF7d2dxngGYYX1WXoQLjFP9YYH8ZV07oPm+RUOAKSCQuDuMNhiA==}
+    cpu: [x64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo-windows-arm64/1.6.3:
+    resolution: {integrity: sha512-BXY1sDPEA1DgPwuENvDCD8B7Hb0toscjus941WpL8CVd10hg9pk/MWn9CNgwDO5Q9ks0mw+liDv2EMnleEjeNA==}
+    cpu: [arm64]
+    os: [win32]
+    requiresBuild: true
+    dev: true
+    optional: true
+
+  /turbo/1.6.3:
+    resolution: {integrity: sha512-FtfhJLmEEtHveGxW4Ye/QuY85AnZ2ZNVgkTBswoap7UMHB1+oI4diHPNyqrQLG4K1UFtCkjOlVoLsllUh/9QRw==}
+    hasBin: true
+    requiresBuild: true
+    optionalDependencies:
+      turbo-darwin-64: 1.6.3
+      turbo-darwin-arm64: 1.6.3
+      turbo-linux-64: 1.6.3
+      turbo-linux-arm64: 1.6.3
+      turbo-windows-64: 1.6.3
+      turbo-windows-arm64: 1.6.3
+    dev: true
+
   /tweetnacl/0.14.5:
     resolution: {integrity: sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==}
     dev: false
@@ -5139,8 +5267,8 @@ packages:
     engines: {node: '>=4.2.0'}
     hasBin: true
 
-  /typia/3.4.18_bdozwspg4olslwdzpxy3uyklu4:
-    resolution: {integrity: sha512-eJHu/cQN3PTFQkKkpMU5i4LosFA/PPxXBXaaCVZKO3i3hG6iC6l2Hq4ySHK56DsACqjNAFdg+AdwkWsc9CqXFg==}
+  /typia/3.4.20_bdozwspg4olslwdzpxy3uyklu4:
+    resolution: {integrity: sha512-7tNvuZ6n4PwVLxv3oRgroHq1ZXT9iKpwDxUNkWSVKP7KQFHrcWoXQiGSUlKtoBX/ZaGBJxD9ss3Ga1YiQNytxA==}
     hasBin: true
     peerDependencies:
       ttypescript: '>= 1.5.15'
@@ -5310,7 +5438,7 @@ packages:
       eslint-plugin-import: 2.26.0_p2bfqlbiqq2ermunrz2pgvy5ou
       eslint-plugin-n: 15.6.0_eslint@8.31.0
       eslint-plugin-no-use-extend-native: 0.5.0
-      eslint-plugin-prettier: 4.2.1_32m5uc2milwdw3tnkcq5del26y
+      eslint-plugin-prettier: 4.2.1_iu5s7nk6dw7o3tajefwfiqfmge
       eslint-plugin-unicorn: 44.0.2_eslint@8.31.0
       esm-utils: 4.1.1
       find-cache-dir: 4.0.0
@@ -5324,7 +5452,7 @@ packages:
       meow: 11.0.0
       micromatch: 4.0.5
       open-editor: 4.0.0
-      prettier: 2.8.1
+      prettier: 2.8.2
       semver: 7.3.8
       slash: 5.0.0
       to-absolute-glob: 2.0.2

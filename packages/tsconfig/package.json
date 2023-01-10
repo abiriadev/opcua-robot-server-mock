@@ -1,0 +1,19 @@
+{
+	"name": "tsconfig",
+	"version": "0.1.0",
+	"description": "shared tsconfig setting",
+	"main": "tsconfig.json",
+	"scripts": {
+		"format": "prettier . -w"
+	},
+	"keywords": [
+		"tsconfig"
+	],
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "^2.8.1",
+		"prettierrc": "workspace:^0.1.0",
+		"typescript": "^4.9.4"
+	}
+}

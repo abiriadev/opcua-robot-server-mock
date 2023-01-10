@@ -1,0 +1,21 @@
+{
+	"name": "prettierrc",
+	"version": "0.1.0",
+	"description": "shared prettierrc configuration",
+	"main": ".prettierrc.json",
+	"scripts": {
+		"format": "prettier . -w"
+	},
+	"keywords": [
+		"prettier"
+	],
+	"author": "Abiria <abiria.dev@gmail.com>",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "^2.8.2"
+	},
+	"peerDependencies": {
+		"@trivago/prettier-plugin-sort-imports": "^4.0.0",
+		"prettier": "^2.8.2"
+	}
+}

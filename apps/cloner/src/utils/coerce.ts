@@ -1,7 +1,10 @@
-import { LocalizedText, QualifiedName } from 'node'
 import {
-	LocalizedText as OpcLocalizedText,
-	QualifiedName as OpcQualifiedName,
+	type LocalizedText,
+	type QualifiedName,
+} from 'node'
+import {
+	type LocalizedText as OpcLocalizedText,
+	type QualifiedName as OpcQualifiedName,
 } from 'node-opcua'
 
 export const coerceQualifiedName = (
@@ -11,13 +14,16 @@ export const coerceQualifiedName = (
 	name:
 		qualifiedName.name ??
 		(() => {
-			throw new TypeError()
+			throw new TypeError(
+				`qualifiedName.name must not to be null or undefined`,
+			)
 		})(),
 })
 
 export const coerceLocalizedText = (
 	localizedText: OpcLocalizedText,
 ): LocalizedText => ({
+	// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
 	locale: localizedText.locale || null,
 	text: localizedText.text ?? null,
 })

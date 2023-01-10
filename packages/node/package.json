@@ -1,16 +1,24 @@
 {
 	"name": "node",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"description": "shared node type for serialize / deserialize OPC UA tree structure",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc"
+		"build": "tsc",
+		"format": "prettier . -w",
+		"lint": "xo",
+		"lint:fix": "xo --fix"
 	},
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "ISC",
 	"devDependencies": {
-		"prettier": "^2.8.1",
-		"typescript": "^4.9.4"
+		"@trivago/prettier-plugin-sort-imports": "^4.0.0",
+		"eslint-config-custom": "workspace:^0.1.0",
+		"prettier": "^2.8.2",
+		"prettierrc": "workspace:^0.1.0",
+		"tsconfig": "workspace:^0.1.0",
+		"typescript": "^4.9.4",
+		"xo": "^0.53.1"
 	}
 }

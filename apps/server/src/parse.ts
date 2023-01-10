@@ -1,14 +1,18 @@
-import { readFile } from 'fs/promises'
-import { UaNode } from 'node'
+import { readFile } from 'node:fs/promises'
+import { env } from 'node:process'
+
+import { type UaNode } from 'node'
 import { assertParse } from 'parser'
 
-// parse json file into Node tree.
+// Parse json file into Node tree.
 // WARN: this function is not safe.
 // it will throw various exceptions rather than handling them
 // to make this function more simpler to use.
 // this dirty behavior may change later.
 export const parse = async (): Promise<Array<UaNode>> => {
-	const file = process.env.OPC_TREE_FILE
+	const file = env.OPC_TREE_FILE
+
+	console.log(file)
 
 	if (file === undefined)
 		throw new TypeError(

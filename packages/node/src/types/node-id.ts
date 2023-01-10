@@ -3,7 +3,7 @@ export enum NodeIdType {
 	NUMERIC = 'NUMERIC',
 }
 
-// redefined NodeId
+// Redefined NodeId
 // WARN: this type does not support Buffer
 export type NodeId = (
 	| {
