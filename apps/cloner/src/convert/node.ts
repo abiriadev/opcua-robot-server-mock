@@ -31,7 +31,6 @@ export const toNode = async (
 	),
 	// DisplayName must to be an Array.
 	displayName: [ref.displayName].map(
-		// eslint-disable-next-line unicorn/no-array-callback-reference
 		StLocalizedText.fromLocalizedText,
 	),
 	nodeId: StNodeId.fromNodeId(ref.nodeId),

@@ -21,5 +21,5 @@ export interface StBaseNode {
 // eslint-ignore-next-line @typescript-eslint/no-redundant-type-constituents
 export type StNode = StObjectNode | StVariableNode
 
-// define tree type
+// Define tree type
 export type StNodeTree = Array<StNode>

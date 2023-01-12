@@ -1,5 +1,5 @@
 import {
-	StNode,
+	type StNode,
 	toLocalizedText,
 	toNodeId,
 	toQualifiedName,

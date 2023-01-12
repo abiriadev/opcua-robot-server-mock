@@ -1,10 +1,10 @@
-import { StVariableNode, toNodeId } from 'node'
-import { Namespace, NodeIdLike } from 'node-opcua'
+import { type StVariableNode, toNodeId } from 'node'
+import { type Namespace, type NodeIdLike } from 'node-opcua'
 import { getDefaultVariant } from 'utils'
 
 import { createBaseNode } from './node'
 
-// register single variable to the namespace
+// Register single variable to the namespace
 export const registerVariable = (
 	ns: Namespace,
 	node: StVariableNode,
@@ -21,7 +21,7 @@ export const registerVariable = (
 			node.minimumSamplingInterval,
 		typeDefinition: toNodeId(node.typeDefinition),
 		userAccessLevel: node.userAccessLevel,
-		// eslint-disable-next-line unicorn/no-unreadable-iife
+
 		value: getDefaultVariant(
 			(x => {
 				if (x === null)

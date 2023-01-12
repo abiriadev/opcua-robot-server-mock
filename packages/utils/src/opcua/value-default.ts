@@ -1,11 +1,14 @@
+import { Buffer } from 'node:buffer'
+
 import { DataType, NodeId, emptyGuid } from 'node-opcua'
 
-// return default value for each DataType
+// Return default value for each DataType
 export const getDefault = (dataType: DataType) => {
 	switch (dataType) {
 		case DataType.Boolean: {
 			return true
 		}
+
 		case DataType.SByte:
 		case DataType.Byte:
 		case DataType.Int16:
@@ -18,22 +21,28 @@ export const getDefault = (dataType: DataType) => {
 		case DataType.Double: {
 			return 0
 		}
+
 		case DataType.String: {
 			return ''
 		}
+
 		case DataType.DateTime: {
 			return new Date()
 		}
+
 		case DataType.Guid: {
 			return emptyGuid
 		}
+
 		case DataType.ByteString: {
 			return Buffer.alloc(0)
 		}
+
 		case DataType.NodeId: {
 			return NodeId.nullNodeId
 		}
-		case DataType.Null:
+
+		// Omitted case DataType.Null:
 		default: {
 			return null
 		}
@@ -41,6 +50,6 @@ export const getDefault = (dataType: DataType) => {
 }
 
 export const getDefaultVariant = (dataType: DataType) => ({
-	dataType: dataType,
+	dataType,
 	value: getDefault(dataType),
 })

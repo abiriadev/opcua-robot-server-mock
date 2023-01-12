@@ -1,4 +1,4 @@
-import { StNodeTree } from 'node'
+import { type StNodeTree } from 'node'
 import {
 	OPCUAServer,
 	type OPCUAServerOptions,
@@ -13,11 +13,11 @@ interface ServerOptions {
 	serverOptions: OPCUAServerOptions
 }
 
-// the main server class that end user will interact with.
+// The main server class that end user will interact with.
 // you can not initialize this class directly,
 // instead you should use initialize() or configureDefault() static methods.
 export class Server {
-	// configures all the server options to best default.
+	// Configures all the server options to best default.
 	// WARN: this function might cause side effects,
 	// since it will call dotenv internally to read configs.
 	// if you want to avoid side effects, consider using initialize()
@@ -26,7 +26,7 @@ export class Server {
 		const nodeTree = await parseDefaultTreeFile()
 		const serverOptions: OPCUAServerOptions = {
 			port: Number.parseInt(
-				// the default OPC UA port
+				// The default OPC UA port
 				getEnv('PORT', `${4840}`),
 				10,
 			),
@@ -38,14 +38,14 @@ export class Server {
 			},
 		}
 
-		// call initialize() method with above config
+		// Call initialize() method with above config
 		return Server.initialize({
 			nodeTree,
 			serverOptions,
 		})
 	}
 
-	// this static method will initialize server with given configs.
+	// This static method will initialize server with given configs.
 	// if you are not sure what config best suits you,
 	// consider using configureDefault() static method.
 	static async initialize({
@@ -61,12 +61,12 @@ export class Server {
 		// there is no manual registration process.
 		server.#registerTree(nodeTree)
 
-		// return created instance,
+		// Return created instance,
 		// so that you can call start() method directly.
 		return server
 	}
 
-	// the internal OPCUA server object
+	// The internal OPCUA server object
 	#server: OPCUAServer
 
 	// NOTE: this constructor is declared as private,
@@ -76,7 +76,7 @@ export class Server {
 		this.#server = new OPCUAServer(opt)
 	}
 
-	// register node tree recursively.
+	// Register node tree recursively.
 	// NOTE: this is private method and
 	// was intended to be called only at once.
 	#registerTree(nodeTree: StNodeTree) {
@@ -91,14 +91,14 @@ export class Server {
 		registerTree(ns, nodeTree[0], 'RootFolder')
 	}
 
-	// start the actual server, bind it to port etc.
+	// Start the actual server, bind it to port etc.
 	// you should call this function after creating an instance.
 	async start() {
 		await this.#server.start()
 		return this
 	}
 
-	// server getter
+	// Server getter
 	getServer(): OPCUAServer {
 		return this.#server
 	}

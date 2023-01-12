@@ -1,11 +1,11 @@
-import { StNode, toNodeId } from 'node'
+import { type StNode, toNodeId } from 'node'
 import { type Namespace, type NodeIdLike } from 'node-opcua'
 import { nodeExists } from 'utils'
 
 import { registerObject } from './object'
 import { registerVariable } from './variable'
 
-// register node tree recursively
+// Register node tree recursively
 export const registerTree = (
 	ns: Namespace,
 	node: StNode,
@@ -13,7 +13,7 @@ export const registerTree = (
 ) => {
 	const nodeId = toNodeId(node.nodeId)
 
-	// determine whether to skip registering this node
+	// Determine whether to skip registering this node
 	if (!nodeExists(ns, nodeId)) {
 		if (node.nodeClass === 'Object')
 			registerObject(ns, node, pnid)
@@ -21,7 +21,7 @@ export const registerTree = (
 			registerVariable(ns, node, pnid)
 	}
 
-	// use forEach since there is nothing to return
+	// Use forEach since there is nothing to return
 	// eslint-disable-next-line unicorn/no-array-for-each
 	node.references.forEach(child => {
 		registerTree(ns, child, nodeId)
