@@ -20,14 +20,16 @@ export class StLocalizedText {
 		readonly locale: string | null,
 		readonly text: string | null,
 	) {}
+}
 
-	// Convert this class into LocalizedText
-	toLocalizedText() {
-		const { locale, text } = this
+// Convert this class into LocalizedText
+export const toLocalizedText = (
+	stLocalizedText: StLocalizedText,
+) => {
+	const { locale, text } = stLocalizedText
 
-		return new LocalizedText({
-			locale,
-			text,
-		})
-	}
+	return new LocalizedText({
+		locale,
+		text,
+	})
 }

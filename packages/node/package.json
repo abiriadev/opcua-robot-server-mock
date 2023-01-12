@@ -1,6 +1,6 @@
 {
 	"name": "node",
-	"version": "0.6.0",
+	"version": "0.7.0",
 	"description": "shared node type for serialize / deserialize OPC UA tree structure",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",

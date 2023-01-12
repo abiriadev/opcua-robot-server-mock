@@ -21,14 +21,16 @@ export class StQualifiedName {
 		readonly namespaceIndex: number,
 		readonly name: string,
 	) {}
+}
 
-	// Convert this class into QualifiedName
-	toQualifiedName() {
-		const { name, namespaceIndex } = this
+// Convert this class into QualifiedName
+export const toQualifiedName = (
+	stQualifiedName: StQualifiedName,
+) => {
+	const { name, namespaceIndex } = stQualifiedName
 
-		return new QualifiedName({
-			name,
-			namespaceIndex,
-		})
-	}
+	return new QualifiedName({
+		name,
+		namespaceIndex,
+	})
 }

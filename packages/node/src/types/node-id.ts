@@ -45,15 +45,15 @@ export class StNodeId {
 		readonly value: CurrentlySupported,
 		readonly namespace: number,
 	) {}
+}
 
-	// Convert this class into NodeId
-	toNodeId() {
-		const { identifierType, value, namespace } = this
+// Convert this class into NodeId
+export const toNodeId = (stNodeId: StNodeId) => {
+	const { identifierType, value, namespace } = stNodeId
 
-		return new NodeId(
-			stringToNodeIdType(identifierType),
-			value,
-			namespace,
-		)
-	}
+	return new NodeId(
+		stringToNodeIdType(identifierType),
+		value,
+		namespace,
+	)
 }
