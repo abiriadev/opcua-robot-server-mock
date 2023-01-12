@@ -1,11 +1,5 @@
 import { env } from 'node:process'
 
-import { config } from 'dotenv'
-
-// Initialize dotenv as loading this module
-// this will be performed only once
-config()
-
 // Throw an exception when given variable does not exist
 // if the second parameter is given, it will return that value instead of throwing an exception.
 export const assertGetEnv = (
@@ -21,9 +15,7 @@ export const assertGetEnv = (
 }
 
 // Factory function that prefixes given text to all environment variables
-export const prefixFactory =
+export const assertGetEnvPrefixFactory =
 	(prefix: string) =>
 	(key: string, defaultValue?: string) =>
 		assertGetEnv(`${prefix}_${key}`, defaultValue)
-
-export const getEnv = prefixFactory('OPCUA_SERVER')

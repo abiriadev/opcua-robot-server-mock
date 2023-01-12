@@ -7,6 +7,7 @@ import {
 	UARootFolder,
 	UAVariable,
 } from 'node-opcua'
+import { isOrganziedBy, isVariable } from 'utils'
 
 const retrieveRoot = <T>(
 	server: OPCUAServer,
@@ -34,9 +35,6 @@ export const getAllVariables = (
 			node.nodeClass === NodeClass.Variable,
 	)
 
-const isOrganziedBy = (nodeId: NodeId) =>
-	nodeId.namespace === 0 && nodeId.value === 35
-
 const internalRec = <T>(
 	node: BaseNode,
 	cb: (node: BaseNode) => T,
@@ -58,9 +56,6 @@ const internalRec = <T>(
 		.map(ref => ref.node)
 		.map(node => [...internalRec(node, cb), cb(node)])
 		.flat(1)
-
-const isVariable = (node: BaseNode): node is UAVariable =>
-	node.nodeClass === NodeClass.Variable
 
 export const updateNode = (
 	server: OPCUAServer,

@@ -1,65 +1,85 @@
-import { type UaNode } from 'node'
+import { StNodeTree } from 'node'
 import {
 	OPCUAServer,
 	type OPCUAServerOptions,
 } from 'node-opcua'
 
+import { getEnv } from './env'
 import { parseDefaultTreeFile } from './parse'
-import { getEnv } from './parse/env'
-import { rec } from './rec'
+import { registerTree } from './register'
 
 interface ServerOptions {
-	nodeTree: Array<UaNode>
-	serverOptions?: OPCUAServerOptions
+	nodeTree: StNodeTree
+	serverOptions: OPCUAServerOptions
 }
 
+// the main server class that end user will interact with.
+// you can not initialize this class directly,
+// instead you should use initialize() or configureDefault() static methods.
 export class Server {
+	// configures all the server options to best default.
+	// WARN: this function might cause side effects,
+	// since it will call dotenv internally to read configs.
+	// if you want to avoid side effects, consider using initialize()
+	// static method instead.
 	static async configureDefault() {
 		const nodeTree = await parseDefaultTreeFile()
 		const serverOptions: OPCUAServerOptions = {
 			port: Number.parseInt(
+				// the default OPC UA port
 				getEnv('PORT', `${4840}`),
 				10,
 			),
 			buildInfo: {
 				buildDate: new Date(),
 				productName: 'Mock OPC UA Server',
+				// TODO: show version information of this module
+				// as build number or software version etc.
 			},
 		}
 
+		// call initialize() method with above config
 		return Server.initialize({
 			nodeTree,
 			serverOptions,
 		})
 	}
 
-	static async initialize(opt: ServerOptions) {
-		const server = new Server(opt)
+	// this static method will initialize server with given configs.
+	// if you are not sure what config best suits you,
+	// consider using configureDefault() static method.
+	static async initialize({
+		nodeTree,
+		serverOptions,
+	}: ServerOptions) {
+		const server = new Server(serverOptions)
 
 		// Initialize inner server
 		await server.#server.initialize()
-		server.#registerTree()
 
+		// NOTE: it will register node tree at this time.
+		// there is no manual registration process.
+		server.#registerTree(nodeTree)
+
+		// return created instance,
+		// so that you can call start() method directly.
 		return server
 	}
 
-	#nodeTree: Array<UaNode>
+	// the internal OPCUA server object
 	#server: OPCUAServer
 
 	// NOTE: this constructor is declared as private,
 	// since es2022 private method syntax does not support
 	// private constructor currently.
-	private constructor(opt: ServerOptions) {
-		this.#nodeTree = opt.nodeTree
-		this.#server = new OPCUAServer(opt.serverOptions)
+	private constructor(opt: OPCUAServerOptions) {
+		this.#server = new OPCUAServer(opt)
 	}
 
-	async start() {
-		await this.#server.start()
-		return this
-	}
-
-	#registerTree() {
+	// register node tree recursively.
+	// NOTE: this is private method and
+	// was intended to be called only at once.
+	#registerTree(nodeTree: StNodeTree) {
 		const ns =
 			this.#server.engine.addressSpace?.getOwnNamespace()
 
@@ -68,9 +88,17 @@ export class Server {
 			throw new Error('namespace was not defined')
 
 		// WARN: indexing 0 might not work properly
-		rec(ns, this.#nodeTree[0], 'RootFolder')
+		registerTree(ns, nodeTree[0], 'RootFolder')
 	}
 
+	// start the actual server, bind it to port etc.
+	// you should call this function after creating an instance.
+	async start() {
+		await this.#server.start()
+		return this
+	}
+
+	// server getter
 	getServer(): OPCUAServer {
 		return this.#server
 	}

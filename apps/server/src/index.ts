@@ -19,7 +19,8 @@ const randomValueForType = (dataType: DataType) => {
 		case DataType.Int64:
 		case DataType.UInt16:
 		case DataType.UInt32:
-		case DataType.UInt64: {
+		case DataType.UInt64:
+		case DataType.Double: {
 			return Math.floor(Math.random() * 10000)
 		}
 		case DataType.Boolean: {

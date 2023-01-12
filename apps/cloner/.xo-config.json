@@ -1,5 +1,8 @@
 {
 	"root": true,
 	"extends": ["custom"],
-	"prettier": true
+	"prettier": true,
+	"rules": {
+		"import/no-cycle": "off"
+	}
 }

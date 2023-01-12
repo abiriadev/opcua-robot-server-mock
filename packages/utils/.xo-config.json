@@ -1,0 +1,9 @@
+{
+	"root": true,
+	"extends": ["custom"],
+	"prettier": true,
+	"rules": {
+		"unicorn/no-array-callback-reference": "off",
+		"@typescript-eslint/restrict-template-expressions": "off"
+	}
+}
