@@ -15,11 +15,9 @@
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "GPL-3.0",
 	"dependencies": {
-		"node": "workspace:^0.7.0",
+		"@faker-js/faker": "^7.6.0",
 		"node-opcua": "^2.88.0",
-		"parser": "workspace:^0.8.0",
-		"server-api": "workspace:^0.1.0",
-		"utils": "workspace:^0.1.0"
+		"server-api": "workspace:^0.1.0"
 	},
 	"devDependencies": {
 		"@swc/cli": "^0.1.59",
