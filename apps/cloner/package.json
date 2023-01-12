@@ -6,6 +6,7 @@
 	"scripts": {
 		"build": "swc ./src -d ./dist",
 		"build:tsc": "tsc",
+		"clean": "rm -rf dist",
 		"format": "prettier . -w",
 		"lint": "xo",
 		"lint:fix": "xo --fix",

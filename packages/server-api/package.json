@@ -4,10 +4,11 @@
 	"description": "reusable mock server api",
 	"main": "dist/index.js",
 	"scripts": {
+		"build": "tsc",
+		"clean": "rm -rf dist",
 		"format": "prettier . -w",
 		"lint": "xo",
-		"lint:fix": "xo --fix",
-		"build": "tsc"
+		"lint:fix": "xo --fix"
 	},
 	"keywords": [
 		"server",

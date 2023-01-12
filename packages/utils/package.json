@@ -5,10 +5,11 @@
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
+		"build": "tsc",
+		"clean": "rm -rf dist",
 		"format": "prettier . -w",
 		"lint": "xo",
-		"lint:fix": "xo --fix",
-		"build": "tsc"
+		"lint:fix": "xo --fix"
 	},
 	"keywords": [
 		"OPC UA",
