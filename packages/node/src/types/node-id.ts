@@ -5,8 +5,9 @@ import { NodeId, NodeIdType } from 'node-opcua'
 // Helper types
 type CurrentlySupportedTypeName = Exclude<
 	keyof typeof NodeIdType,
-	'GUID' | 'BYTESTRING'
+	'BYTESTRING'
 >
+// NOTE: GUID is subtype of string
 type CurrentlySupported = number | string
 
 // Helper function
@@ -25,15 +26,12 @@ export class StNodeId {
 		const stringifiedIdentifierType =
 			nodeIdTypeToString(identifierType)
 
-		if (
-			!(
-				stringifiedIdentifierType === 'NUMERIC' ||
-				stringifiedIdentifierType === 'STRING'
-			)
-		)
+		if (stringifiedIdentifierType === 'BYTESTRING')
 			throw new TypeError(
-				`SNodeId currently does not support BYTESTRING or GUID`,
+				`SNodeId currently does not support ${stringifiedIdentifierType}`,
 			)
+
+		// TODO: add runtime type checking code here
 
 		return new StNodeId(
 			stringifiedIdentifierType,
