@@ -1,10 +1,14 @@
 // Exports everything
 
-export { NodeClass } from './types/node-class'
-export { NodeIdType, type NodeId } from './types/node-id'
-export type { QualifiedName } from './types/qualified-name'
-export type { LocalizedText } from './types/localized-text'
+export type { StNodeClass } from './types/node-class'
+export { StNodeId } from './types/node-id'
+export { StQualifiedName } from './types/qualified-name'
+export { StLocalizedText } from './types/localized-text'
 
-export type { Node, UaNode } from './types/nodes/node'
-export type { ObjectNode } from './types/nodes/object'
-export type { VariableNode } from './types/nodes/variable'
+export type {
+	StBaseNode,
+	StNode,
+	StNodeTree,
+} from './types/nodes/node'
+export type { StObjectNode } from './types/nodes/object'
+export type { StVariableNode } from './types/nodes/variable'
