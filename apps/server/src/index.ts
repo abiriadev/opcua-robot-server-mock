@@ -1,8 +1,6 @@
 import { DataType } from 'node-opcua'
 import { Server } from 'server-api'
 
-import { getAllVariables } from './random-update'
-
 const randomValueForType = (dataType: DataType) => {
 	switch (dataType) {
 		case DataType.String: {
@@ -41,22 +39,18 @@ void (async () => {
 	const server = await Server.configureDefault()
 	await server.start()
 
-	const vars = getAllVariables(server.getServer())
+	const vars = server.getAllVariables()
 
 	setInterval(
 		() =>
-			vars.map(v => {
-				const value = randomValueForType(
-					v.dataTypeObj.basicDataType,
-				)
-				console.log(
-					`${v.nodeId}(${v.dataTypeObj.browseName}) : ${value}`,
-				)
+			vars.map(v =>
 				v.setValueFromSource({
 					dataType: v.dataTypeObj.basicDataType,
-					value,
-				})
-			}),
+					value: randomValueForType(
+						v.dataTypeObj.basicDataType,
+					),
+				}),
+			),
 		100,
 	)
 

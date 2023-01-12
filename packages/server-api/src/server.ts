@@ -1,8 +1,16 @@
 import { type StNodeTree } from 'node'
 import {
+	NodeIdLike,
 	OPCUAServer,
 	type OPCUAServerOptions,
+	UARootFolder,
 } from 'node-opcua'
+import {
+	getAllNodeIds,
+	getAllVariableIds,
+	getAllVariables,
+	updateVariable,
+} from 'utils'
 
 import { getEnv } from './env'
 import { parseDefaultTreeFile } from './parse'
@@ -91,6 +99,21 @@ export class Server {
 		registerTree(ns, nodeTree[0], 'RootFolder')
 	}
 
+	// get addressSpace from inner server.
+	// NOTE: it will throw error if addressSpace does not exist
+	#getAddressSpace() {
+		const addr = this.#server.engine.addressSpace
+
+		if (addr === null)
+			throw new Error(`AddressSpace does not exist`)
+		return addr
+	}
+
+	// retrieve RootFolder from address space.
+	#getRootFolder() {
+		return this.#getAddressSpace().rootFolder
+	}
+
 	// Start the actual server, bind it to port etc.
 	// you should call this function after creating an instance.
 	async start() {
@@ -99,7 +122,36 @@ export class Server {
 	}
 
 	// Server getter
-	getServer(): OPCUAServer {
+	getServer() {
 		return this.#server
+	}
+
+	// return all node ids in string
+	getAllNodeIds() {
+		return getAllNodeIds(this.#getRootFolder()).map(
+			nodeId => nodeId.toString(),
+		)
+	}
+
+	// return array of all variable nodes
+	getAllVariables() {
+		return getAllVariables(this.#getRootFolder())
+	}
+
+	// return all variable node ids
+	// in string type
+	getAllVariableIds() {
+		return getAllVariableIds(this.#getRootFolder()).map(
+			nodeId => nodeId.toString(),
+		)
+	}
+
+	// manually assign variable node a value.
+	set(nodeId: NodeIdLike, value: unknown) {
+		updateVariable(
+			this.#getAddressSpace(),
+			nodeId,
+			value,
+		)
 	}
 }
