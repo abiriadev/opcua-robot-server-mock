@@ -1,4 +1,4 @@
-import { type UaNode } from 'node'
+import { StNodeTree } from 'node'
 import {
 	createAssertParse,
 	createAssertStringify,
@@ -7,7 +7,7 @@ import {
 	createStringify,
 } from 'typia'
 
-type T = Array<UaNode>
+type T = StNodeTree
 
 export const assertParse = createAssertParse<T>()
 
