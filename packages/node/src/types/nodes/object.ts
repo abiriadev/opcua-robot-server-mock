@@ -1,9 +1,8 @@
-import { type NodeClass } from '../node-class'
-import { type NodeId } from '../node-id'
-import { type Node } from './node'
+import { type StNodeId } from '../node-id'
+import { type StBaseNode } from './node'
 
 // Represents Object in OPCUA structure.
-export interface ObjectNode extends Node {
-	nodeClass: NodeClass.Object
-	typeDefinition: NodeId
+export interface StObjectNode extends StBaseNode {
+	nodeClass: 'Object'
+	typeDefinition: StNodeId
 }

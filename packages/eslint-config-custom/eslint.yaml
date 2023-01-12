@@ -8,5 +8,9 @@ rules:
     - default: generic
   '@typescript-eslint/ban-types': off
   '@typescript-eslint/consistent-type-definitions': off
+  '@typescript-eslint/restrict-template-expressions': off
+  'array-callback-return': off
+  'no-warning-comments': off
+  'unicorn/no-array-callback-reference': off
   'unicorn/no-await-expression-member': off
   'unicorn/prefer-top-level-await': off

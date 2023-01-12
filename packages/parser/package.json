@@ -1,11 +1,12 @@
 {
 	"name": "parser",
-	"version": "0.6.0",
+	"version": "0.8.0",
 	"description": "parse JSON-serialized OPC UA server structure",
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {
 		"build": "ttsc",
+		"clean": "rm -rf dist",
 		"format": "prettier . -w",
 		"lint": "xo",
 		"lint:fix": "xo --fix"
@@ -13,7 +14,7 @@
 	"author": "Abiria <abiria.dev@gmail.com>",
 	"license": "GPL-3.0",
 	"dependencies": {
-		"node": "workspace:^0.4.0",
+		"node": "workspace:^0.7.0",
 		"typia": "^3.4.20"
 	},
 	"devDependencies": {

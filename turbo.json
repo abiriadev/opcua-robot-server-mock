@@ -5,6 +5,9 @@
 			"dependsOn": ["^build"],
 			"outputs": ["dist"]
 		},
+		"clean": {
+			"cache": false
+		},
 		"lint": {
 			"outputs": []
 		},
@@ -16,6 +19,10 @@
 		},
 		"cloner#start": {
 			"dependsOn": ["build"],
+			"env": [
+				"OPCUA_CLONER_SOURCE_SERVER_URL",
+				"OPCUA_CLONER_OUTPUT"
+			],
 			"outputs": ["tree.json"]
 		},
 		"server#start": {

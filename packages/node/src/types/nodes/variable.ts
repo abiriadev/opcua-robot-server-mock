@@ -1,16 +1,16 @@
-import { type NodeClass } from '../node-class'
-import { type NodeId } from '../node-id'
-import { type Node } from './node'
+import { type StNodeId } from '../node-id'
+import { type StBaseNode } from './node'
 
-export interface VariableNode extends Node {
-	nodeClass: NodeClass.Variable
+// Represents variable node
+export interface StVariableNode extends StBaseNode {
+	nodeClass: 'Variable'
 	accessLevel: number
 	// This field should accept null, since our robot OPC server can't support this attributes correctly.
 	arrayDimensions: Array<number> | null
-	dataType: NodeId
+	dataType: StNodeId
 	historizing: boolean
 	minimumSamplingInterval: number
-	typeDefinition: NodeId
+	typeDefinition: StNodeId
 	userAccessLevel: number
 	valueRank: number
 }
