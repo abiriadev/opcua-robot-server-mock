@@ -1,11 +1,11 @@
 import {
-	BaseNode,
+	type BaseNode,
 	NodeClass,
-	NodeId,
-	OPCUAServer,
-	UAReference,
-	UARootFolder,
-	UAVariable,
+	type NodeId,
+	type OPCUAServer,
+	type UAReference,
+	type UARootFolder,
+	type UAVariable,
 } from 'node-opcua'
 import { isOrganziedBy, isVariable } from 'utils'
 
@@ -15,7 +15,7 @@ const retrieveRoot = <T>(
 ): Array<T> => {
 	const root = server.engine.addressSpace?.rootFolder
 
-	return root !== undefined ? cb(root) : []
+	return root === undefined ? [] : cb(root)
 }
 
 export const getAllNodeIds = (
@@ -54,8 +54,10 @@ const internalRec = <T>(
 			} => ref.node !== undefined,
 		)
 		.map(ref => ref.node)
-		.map(node => [...internalRec(node, cb), cb(node)])
-		.flat(1)
+		.flatMap(node => [
+			...internalRec(node, cb),
+			cb(node),
+		])
 
 export const updateNode = (
 	server: OPCUAServer,

@@ -8,12 +8,15 @@ const randomValueForType = (dataType: DataType) => {
 		case DataType.String: {
 			return `${Math.random()}`
 		}
+
 		case DataType.Byte: {
 			return (Math.random() * 10) % 8
 		}
+
 		case DataType.Float: {
 			return Math.random()
 		}
+
 		case DataType.Int16:
 		case DataType.Int32:
 		case DataType.Int64:
@@ -21,11 +24,13 @@ const randomValueForType = (dataType: DataType) => {
 		case DataType.UInt32:
 		case DataType.UInt64:
 		case DataType.Double: {
-			return Math.floor(Math.random() * 10000)
+			return Math.floor(Math.random() * 10_000)
 		}
+
 		case DataType.Boolean: {
 			return Math.random() > 0.5
 		}
+
 		default: {
 			return null
 		}

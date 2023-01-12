@@ -1,4 +1,4 @@
-import { StNodeTree } from 'node'
+import { type StNodeTree } from 'node'
 import { assertParse } from 'parser'
 import { readFileAsString } from 'utils'
 

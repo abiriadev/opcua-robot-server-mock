@@ -1,8 +1,5 @@
 {
 	"root": true,
 	"extends": ["custom"],
-	"prettier": true,
-	"rules": {
-		"no-warning-comments": "off"
-	}
+	"prettier": true
 }

@@ -4,10 +4,11 @@
 	"description": "OPC UA server mock that emulates behavior of a robot arm",
 	"scripts": {
 		"build": "turbo build",
+		"clean": "turbo clean",
 		"format": "prettier ./package.json ./turbo.json ./pnpm-workspace.yaml -w",
 		"format:all": "turbo format",
 		"lint": "turbo lint",
-		"all": "turbo format lint build start"
+		"all": "turbo clean format lint build start"
 	},
 	"keywords": [
 		"OPC",
