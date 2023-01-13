@@ -1,0 +1,16 @@
+services:
+  opc:
+    build: ./apps/server
+    restart: always
+    ports:
+      - 14840:4840
+    environment:
+      - OPCUA_SERVER_TREE_FILE=./apps/cloner/tree.json
+      - OPCUA_SERVER_PORT=4840
+    volumes:
+      - type: bind
+        source: .
+        target: /opc
+        read_only: true
+volumes:
+  tree:

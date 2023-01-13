@@ -1,10 +1,10 @@
+import { Buffer } from 'node:buffer'
+
 import { faker } from '@faker-js/faker'
 
 import { DataType, NodeId } from 'node-opcua'
 
 export const rand = (dataType: DataType) => {
-	console.log(dataType)
-
 	switch (dataType) {
 		case DataType.Boolean: {
 			return faker.datatype.boolean()
@@ -16,48 +16,56 @@ export const rand = (dataType: DataType) => {
 				max: 0x7f,
 			})
 		}
+
 		case DataType.Byte: {
 			return faker.datatype.number({
 				min: 0x00,
 				max: 0xff,
 			})
 		}
+
 		case DataType.Int16: {
 			return faker.datatype.number({
-				min: -0x8000,
-				max: 0x7fff,
+				min: -0x80_00,
+				max: 0x7f_ff,
 			})
 		}
+
 		case DataType.UInt16: {
 			return faker.datatype.number({
-				min: 0x0000,
-				max: 0xffff,
+				min: 0x00_00,
+				max: 0xff_ff,
 			})
 		}
+
 		case DataType.Int32: {
 			return faker.datatype.number({
-				min: -0x80000000,
-				max: 0x7fffffff,
+				min: -0x80_00_00_00,
+				max: 0x7f_ff_ff_ff,
 			})
 		}
+
 		case DataType.UInt32: {
 			return faker.datatype.number({
-				min: 0x00000000,
-				max: 0xffffffff,
+				min: 0x00_00_00_00,
+				max: 0xff_ff_ff_ff,
 			})
 		}
+
 		case DataType.Int64: {
 			return faker.datatype.bigInt({
-				min: 0x8000000000000000n,
-				max: 0x7fffffffffffffffn,
+				min: 0x80_00_00_00_00_00_00_00n,
+				max: 0x7f_ff_ff_ff_ff_ff_ff_ffn,
 			})
 		}
+
 		case DataType.UInt64: {
 			return faker.datatype.bigInt({
-				min: 0x0000000000000000n,
-				max: 0xffffffffffffffffn,
+				min: 0x00_00_00_00_00_00_00_00n,
+				max: 0xff_ff_ff_ff_ff_ff_ff_ffn,
 			})
 		}
+
 		case DataType.Float:
 		case DataType.Double: {
 			return faker.datatype.float({

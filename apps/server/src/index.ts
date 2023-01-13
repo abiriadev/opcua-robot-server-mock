@@ -1,3 +1,5 @@
+import process, { exit } from 'node:process'
+
 import { Server } from 'server-api'
 
 import { rand } from './rand'
@@ -10,14 +12,14 @@ void (async () => {
 
 	setInterval(
 		() =>
-			vars.map(v =>
+			vars.map(v => {
 				v.setValueFromSource({
 					dataType: v.dataTypeObj.basicDataType,
 					value: rand(
 						v.dataTypeObj.basicDataType,
 					),
-				}),
-			),
+				})
+			}),
 		100,
 	)
 
@@ -26,4 +28,10 @@ void (async () => {
 			.getServer()
 			.getEndpointUrl()}`,
 	)
+
+	process.on('SIGINT', () => {
+		console.log('stopping server forcefully')
+		void server.stop()
+		exit(0)
+	})
 })()

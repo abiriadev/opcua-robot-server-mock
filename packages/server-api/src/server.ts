@@ -121,6 +121,12 @@ export class Server {
 		return this
 	}
 
+	// stop the inner server,
+	// useful when you are trying to gracefully shut down a server.
+	async stop() {
+		await this.#server.shutdown()
+	}
+
 	// Server getter
 	getServer() {
 		return this.#server

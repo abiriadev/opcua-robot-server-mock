@@ -122,3 +122,5 @@ dist
 *.pem
 .turbo
 tmp/
+out/
+tree.json

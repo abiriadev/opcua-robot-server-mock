@@ -8,7 +8,8 @@
 		"format": "prettier ./package.json ./turbo.json ./pnpm-workspace.yaml -w",
 		"format:all": "turbo format",
 		"lint": "turbo lint",
-		"all": "turbo clean format lint build start"
+		"all": "turbo clean format lint build start",
+		"prune": "turbo prune --scope server --docker"
 	},
 	"keywords": [
 		"OPC",
